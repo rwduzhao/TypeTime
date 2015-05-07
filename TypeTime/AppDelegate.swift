@@ -11,8 +11,6 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
-
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
     }
@@ -157,5 +155,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return .TerminateNow
     }
 
-}
+    @IBAction func typeReady(sender: NSMenuItem) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let userInfo = ["sender": self]
+        notificationCenter.postNotificationName("StartTypeNotification", object: self, userInfo: userInfo)
+    }
 
+    @IBAction func typeTogglePause(sender: NSMenuItem) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let userInfo = ["sender": sender]
+        notificationCenter.postNotificationName("TogglePauseTypeNotification", object: self, userInfo: userInfo)
+    }
+
+    @IBAction func typeSubmit(sender: NSMenuItem) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let userInfo = ["sender": sender]
+        notificationCenter.postNotificationName("SubmitTypeNotification", object: self, userInfo: userInfo)
+    }
+
+    @IBAction func typeEditReference(sender: NSMenuItem) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let userInfo = ["sender": sender]
+        notificationCenter.postNotificationName("ToggleEditReferenceNotification", object: self, userInfo: userInfo)
+    }
+
+}

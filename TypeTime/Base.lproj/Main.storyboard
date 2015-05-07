@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="6198" systemVersion="14A297b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6198"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -110,7 +110,8 @@
                                                 <action selector="runPageLayout:" target="Ady-hI-5gd" id="Din-rz-gC5"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Print…" keyEquivalent="p" id="aTl-1u-JFS">
+                                        <menuItem title="Print…" id="aTl-1u-JFS">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="print:" target="Ady-hI-5gd" id="qaZ-4w-aoO"/>
                                             </connections>
@@ -595,6 +596,48 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="pQI-g3-MTW"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="e8C-sy-GGi"/>
+                                        <menuItem title="Enter Full Screen" keyEquivalent="f" id="fRx-Cp-xRD">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="PKo-Xg-qsd"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Type" id="gLu-tA-9St">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Type" id="4rh-uC-UiU">
+                                    <items>
+                                        <menuItem title="Start" keyEquivalent="l" id="1kl-CX-f8Z">
+                                            <connections>
+                                                <action selector="typeReady:" target="Voe-Tx-rLC" id="Sfn-Uh-iep"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Toggle Pause" keyEquivalent="p" id="Cqp-zn-rtp">
+                                            <connections>
+                                                <action selector="typeTogglePause:" target="Voe-Tx-rLC" id="fYt-rG-cXR"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Submit" id="HAm-B4-xMJ">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                            <connections>
+                                                <action selector="typeSubmit:" target="Voe-Tx-rLC" id="cxF-b3-xPm"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="aBA-Ms-7wX"/>
+                                        <menuItem title="Toggle Edit Reference" id="czf-xy-FPx">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="typeEditReference:" target="Voe-Tx-rLC" id="Q5k-3s-HEo"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -641,17 +684,18 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="TypeTime" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
-        <!--Window Controller - Window-->
+        <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="TypeTime" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="TypeTime" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -667,15 +711,95 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="TypeTime" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="640" height="520"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fK7-lA-MHx">
+                                <rect key="frame" x="20" y="20" width="600" height="28"/>
+                                <clipView key="contentView" id="0bP-IA-KuI">
+                                    <rect key="frame" x="1" y="1" width="238" height="133"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="qbf-7B-Nua" customClass="TypeTextView" customModule="TypeTime" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="241" height="133"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="598" height="26"/>
+                                            <size key="maxSize" width="615" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="598" height="26"/>
+                                            <size key="maxSize" width="615" height="10000000"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="RQp-XA-Lq1"/>
+                                </constraints>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="OId-zY-pHV">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="m7V-ci-Wru">
+                                    <rect key="frame" x="223" y="1" width="16" height="133"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Koc-Uu-Ou9">
+                                <rect key="frame" x="20" y="56" width="600" height="444"/>
+                                <clipView key="contentView" id="AZk-k4-O4g">
+                                    <rect key="frame" x="1" y="1" width="223" height="133"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" baseWritingDirection="leftToRight" findStyle="bar" allowsUndo="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="WwM-tA-asi" customClass="ReferenceTextView" customModule="TypeTime" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="223" height="442"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="598" height="442"/>
+                                            <size key="maxSize" width="600" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="598" height="442"/>
+                                            <size key="maxSize" width="600" height="10000000"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="QAy-8r-nXG">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="mRx-Ea-p3s">
+                                    <rect key="frame" x="224" y="1" width="15" height="133"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Koc-Uu-Ou9" firstAttribute="centerX" secondItem="fK7-lA-MHx" secondAttribute="centerX" id="1aB-m7-Gsw"/>
+                            <constraint firstItem="Koc-Uu-Ou9" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="6Ah-Pu-PQp"/>
+                            <constraint firstAttribute="trailing" secondItem="Koc-Uu-Ou9" secondAttribute="trailing" constant="20" symbolic="YES" id="FK8-Ya-T8e"/>
+                            <constraint firstItem="Koc-Uu-Ou9" firstAttribute="width" secondItem="fK7-lA-MHx" secondAttribute="width" id="Psw-dl-N8u"/>
+                            <constraint firstAttribute="trailing" secondItem="fK7-lA-MHx" secondAttribute="trailing" constant="20" symbolic="YES" id="QUL-JI-RHK"/>
+                            <constraint firstItem="Koc-Uu-Ou9" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="UBa-r5-H1y"/>
+                            <constraint firstAttribute="centerX" secondItem="Koc-Uu-Ou9" secondAttribute="centerX" id="Y3d-Wg-AXq"/>
+                            <constraint firstItem="Koc-Uu-Ou9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="f68-Yx-qTv"/>
+                            <constraint firstItem="fK7-lA-MHx" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="inX-AU-IIf"/>
+                            <constraint firstItem="fK7-lA-MHx" firstAttribute="top" secondItem="Koc-Uu-Ou9" secondAttribute="bottom" constant="8" symbolic="YES" id="oLU-cH-8UG"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Koc-Uu-Ou9" secondAttribute="trailing" constant="20" symbolic="YES" id="sK5-b4-H9K"/>
+                            <constraint firstItem="Koc-Uu-Ou9" firstAttribute="width" secondItem="fK7-lA-MHx" secondAttribute="width" id="wOF-uL-pyp"/>
+                            <constraint firstAttribute="bottom" secondItem="fK7-lA-MHx" secondAttribute="bottom" constant="20" symbolic="YES" id="zdi-Qt-UIo"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="referenceTextView" destination="WwM-tA-asi" id="JYI-UT-ddQ"/>
+                        <outlet property="typeTextView" destination="qbf-7B-Nua" id="Goy-9a-kWn"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="782"/>
         </scene>
     </scenes>
 </document>

@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A3AB7191AF9432C008BB4BB /* TypeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */; };
+		3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */; };
 		3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */; };
 		3AC11CDF1AF3A79100C94550 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDE1AF3A79100C94550 /* ViewController.swift */; };
 		3AC11CE21AF3A79100C94550 /* TypeTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CE01AF3A79100C94550 /* TypeTime.xcdatamodeld */; };
 		3AC11CE41AF3A79100C94550 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AC11CE31AF3A79100C94550 /* Images.xcassets */; };
 		3AC11CE71AF3A79100C94550 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AC11CE51AF3A79100C94550 /* Main.storyboard */; };
 		3AC11CF31AF3A79100C94550 /* TypeTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CF21AF3A79100C94550 /* TypeTimeTests.swift */; };
+		3AC11CFF1AF3B50F00C94550 /* TypeMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +29,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeTextView.swift; sourceTree = "<group>"; };
+		3A8298521AFBE69700B22A84 /* TypeTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TypeTime.entitlements; sourceTree = "<group>"; };
+		3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceTextView.swift; sourceTree = "<group>"; };
 		3AC11CD71AF3A79100C94550 /* TypeTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TypeTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AC11CDB1AF3A79100C94550 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +42,7 @@
 		3AC11CEC1AF3A79100C94550 /* TypeTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TypeTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AC11CF11AF3A79100C94550 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AC11CF21AF3A79100C94550 /* TypeTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTimeTests.swift; sourceTree = "<group>"; };
+		3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +84,12 @@
 		3AC11CD91AF3A79100C94550 /* TypeTime */ = {
 			isa = PBXGroup;
 			children = (
+				3A8298521AFBE69700B22A84 /* TypeTime.entitlements */,
 				3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */,
 				3AC11CDE1AF3A79100C94550 /* ViewController.swift */,
+				3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */,
+				3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */,
+				3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */,
 				3AC11CE31AF3A79100C94550 /* Images.xcassets */,
 				3AC11CE51AF3A79100C94550 /* Main.storyboard */,
 				3AC11CE01AF3A79100C94550 /* TypeTime.xcdatamodeld */,
@@ -161,6 +172,11 @@
 				TargetAttributes = {
 					3AC11CD61AF3A79100C94550 = {
 						CreatedOnToolsVersion = 6.3.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					3AC11CEB1AF3A79100C94550 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -213,7 +229,10 @@
 			files = (
 				3AC11CDF1AF3A79100C94550 /* ViewController.swift in Sources */,
 				3AC11CE21AF3A79100C94550 /* TypeTime.xcdatamodeld in Sources */,
+				3AC11CFF1AF3B50F00C94550 /* TypeMonitor.swift in Sources */,
 				3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */,
+				3A3AB7191AF9432C008BB4BB /* TypeTextView.swift in Sources */,
+				3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,7 +283,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -308,7 +327,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -323,6 +342,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -331,9 +351,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TypeTime/TypeTime.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TypeTime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -342,9 +364,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TypeTime/TypeTime.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TypeTime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -404,6 +428,7 @@
 				3AC11CF81AF3A79100C94550 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3AC11CF91AF3A79100C94550 /* Build configuration list for PBXNativeTarget "TypeTimeTests" */ = {
 			isa = XCConfigurationList;
@@ -412,6 +437,7 @@
 				3AC11CFB1AF3A79100C94550 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

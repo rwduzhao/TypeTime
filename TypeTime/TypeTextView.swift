@@ -67,6 +67,14 @@ class TypeTextView: NSTextView, TypeTextViewDelegate {
         }
     }
 
+    override func shouldChangeTextInRange(affectedCharRange: NSRange, replacementString: String?) -> Bool {
+        if editable == true && affectedCharRange.length > 1 && affectedCharRange.location == 0 {
+            return false
+        } else {
+            return true
+        }
+    }
+
     override func mouseDown(theEvent: NSEvent) {
         if editable == false {
             super.mouseDown(theEvent)

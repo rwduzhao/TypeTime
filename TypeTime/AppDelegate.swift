@@ -19,6 +19,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+        return true
+    }
+
     // MARK: - Core Data stack
 
     lazy var applicationDocumentsDirectory: NSURL = {

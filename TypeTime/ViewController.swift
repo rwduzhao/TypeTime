@@ -83,26 +83,35 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
 
     func submitType() {
+        var isNeedMarkReference = false
         switch typeMonitor.getState() {
         case .On:
-            typeMonitor.setTypeLength(typeTextView.textStorage!.mutableString.length)
             typeMonitor.end()
+            typeTextView.inactivate()
+            typeMonitor.setTypeLength(typeTextView.textStorage!.mutableString.length)
+            isNeedMarkReference = true
         case .Paused:
+            typeMonitor.end()
+            typeTextView.inactivate()
             typeTextView.textStorage?.mutableString.setString(snapshotTypeString!)
             snapshotTypeString = nil
-            typeMonitor.end()
+            isNeedMarkReference = true
         default:
             break
         }
-        typeTextView.inactivate()
-        typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
-        typeTextView.setDefaultFont()
 
-        for index in typeMonitor.getHistoryTypoIndices() {
-            if index < referenceTextView.textStorage!.mutableString.length {
-                referenceTextView.markTextAsHistoryTypoAtIndex(index)
+        if isNeedMarkReference {
+            typeTextView.textStorage?.mutableString.setString("已递交，正到计算标记...")
+            typeTextView.setDefaultFont()
+            for index in typeMonitor.getHistoryTypoIndices() {
+                if index < referenceTextView.textStorage!.mutableString.length {
+                    referenceTextView.markTextAsHistoryTypoAtIndex(index)
+                }
             }
         }
+
+        typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
+        typeTextView.setDefaultFont()
     }
 
     func toggleEditReference(notification: NSNotification) {
@@ -110,15 +119,14 @@ class ViewController: NSViewController, NSTextViewDelegate {
         case true:
             typeMonitor.reset()
             typeTextView.inactivate()
-            let keyEquivalent = "Command + Return"
-            typeTextView.textStorage?.mutableString.setString("开始跟打请按：" + keyEquivalent)
+            typeTextView.setupInitLookup()
             typeTextView.setDefaultFont()
             referenceTextView.inactivate()
             referenceTextView.markAllTextAsNormal()
         case false:
             typeMonitor.reset()
             typeTextView.inactivate()
-            let keyEquivalent = "Shift + Command + E"
+            let keyEquivalent = "Shift + Command + Enter"
             typeTextView.textStorage?.mutableString.setString("结束编辑请按：" + keyEquivalent)
             typeTextView.setDefaultFont()
             referenceTextView.activate()

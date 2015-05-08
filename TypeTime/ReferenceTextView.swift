@@ -31,7 +31,7 @@ class ReferenceTextView: NSTextView {
         + "开始新的跟打：Command + L\n"
         + "暂停及恢复跟打：Command + P\n"
         + "完成跟打并递交成绩：Command + Enter\n"
-        + "文段编辑：Shift + Command + E\n\n"
+        + "文段编辑：Shift + Command + Enter\n\n"
         + "开发与测试环境：OS X Yosemite"
 
     func setupInitLookup() {

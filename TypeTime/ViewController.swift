@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextViewDelegate {
+class ViewController: NSViewController, TypeTextViewDelegate {
 
     @IBOutlet var referenceTextView: ReferenceTextView!
     @IBOutlet var typeTextView: TypeTextView!
@@ -19,11 +19,10 @@ class ViewController: NSViewController, NSTextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        referenceTextView.delegate = self
         referenceTextView.setupInitLookup()
+        typeTextView.setupInitLookup()
 
         typeTextView.delegate = self
-        typeTextView.setupInitLookup()
 
         addObserver()
     }

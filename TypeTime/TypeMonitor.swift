@@ -51,7 +51,9 @@ class TypeMonitor: NSObject {
             let rateStats = calcRateStatistics()
             let rateKeyDown = rateStats["rateKeyDown"]!
             let rateCorrectChar = rateStats["rateCorrectChar"]!
-            let line = "\(state)：正确\(typeLength - typoIndices.count)字符 每分\(num2String(rateCorrectChar))字符 每秒\(num2String(rateKeyDown))击键"
+            let line = "\(state)：正确\(typeLength - typoIndices.count) "
+                + "每分\(num2String(rateCorrectChar))字符 "
+                + "每秒\(num2String(rateKeyDown))击键"
             return line
         }
     }

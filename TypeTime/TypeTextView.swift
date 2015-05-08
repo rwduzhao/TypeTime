@@ -65,4 +65,16 @@ class TypeTextView: NSTextView, TypeTextViewDelegate {
         return false
     }
 
+    override func mouseDown(theEvent: NSEvent) {
+        if editable == false {
+            super.mouseDown(theEvent)
+        }
+    }
+
+    override func rightMouseDown(theEvent: NSEvent) {
+        if editable == false {
+            super.rightMouseDown(theEvent)
+        }
+    }
+
 }

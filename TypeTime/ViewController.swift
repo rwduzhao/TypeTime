@@ -86,13 +86,13 @@ class ViewController: NSViewController, NSTextViewDelegate {
         var isNeedMarkReference = false
         switch typeMonitor.getState() {
         case .On:
-            typeMonitor.end()
             typeTextView.inactivate()
+            typeMonitor.end()
             typeMonitor.setTypeLength(typeTextView.textStorage!.mutableString.length)
             isNeedMarkReference = true
         case .Paused:
-            typeMonitor.end()
             typeTextView.inactivate()
+            typeMonitor.end()
             typeTextView.textStorage?.mutableString.setString(snapshotTypeString!)
             snapshotTypeString = nil
             isNeedMarkReference = true
@@ -101,13 +101,9 @@ class ViewController: NSViewController, NSTextViewDelegate {
         }
 
         if isNeedMarkReference {
-            typeTextView.textStorage?.mutableString.setString("已递交，正到计算标记...")
+            typeTextView.textStorage?.mutableString.setString("标计跟打信息中...")
             typeTextView.setDefaultFont()
-            for index in typeMonitor.getHistoryTypoIndices() {
-                if index < referenceTextView.textStorage!.mutableString.length {
-                    referenceTextView.markTextAsHistoryTypoAtIndex(index)
-                }
-            }
+            referenceTextView.markTextAsHistoryTypoAtIndices(typeMonitor.getHistoryTypoIndices())
         }
 
         typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
@@ -185,7 +181,8 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
             // auto submit
             if referencStringLength > 0 && newTypeLength == referencStringLength {
-                if referenceTextView.textStorage!.mutableString.isEqualToString(typeTextView.textStorage!.mutableString as String) {
+                let typeString = typeTextView.textStorage!.mutableString as String
+                if referenceTextView.textStorage!.mutableString.isEqualToString(typeString) {
                     submitType()
                 }
             }

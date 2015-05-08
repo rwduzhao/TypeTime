@@ -78,5 +78,15 @@ class ReferenceTextView: NSTextView {
     func markTextAsHistoryTypoAtIndex(index: Int) {
         textStorage!.addAttributes(enHistoryTypoStringAttributes, range: NSMakeRange(index, 1))
     }
-    
+
+    func markTextAsHistoryTypoAtIndices(indices: Set<Int>) {
+        var attributedString = textStorage!.mutableCopy() as! NSMutableAttributedString
+        for index in indices {
+            if index < attributedString.length {
+                attributedString.addAttributes(enHistoryTypoStringAttributes, range: NSMakeRange(index, 1))
+            }
+        }
+        textStorage?.setAttributedString(attributedString)
+    }
+
 }

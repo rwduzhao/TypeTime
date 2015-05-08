@@ -11,6 +11,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    var mainWindowController: MainWindowController?
+
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
     }
@@ -19,8 +21,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+    func applicationShouldHandleReopen(sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if flag == false {
+            let storyboard = NSStoryboard(name: "Main", bundle: nil)!
+            mainWindowController = storyboard.instantiateControllerWithIdentifier("Main Window Controller") as? MainWindowController
+            mainWindowController?.showWindow(self)
+        }
         return true
+    }
+
+    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+        return false
     }
 
     // MARK: - Core Data stack

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A07501E1AFCAD76002EE3BF /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */; };
 		3A3AB7191AF9432C008BB4BB /* TypeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */; };
 		3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */; };
 		3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeTextView.swift; sourceTree = "<group>"; };
 		3A8298521AFBE69700B22A84 /* TypeTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TypeTime.entitlements; sourceTree = "<group>"; };
 		3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceTextView.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */,
 				3AC11CE31AF3A79100C94550 /* Images.xcassets */,
 				3AC11CE51AF3A79100C94550 /* Main.storyboard */,
+				3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */,
 				3AC11CE01AF3A79100C94550 /* TypeTime.xcdatamodeld */,
 				3AC11CDA1AF3A79100C94550 /* Supporting Files */,
 			);
@@ -233,6 +236,7 @@
 				3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */,
 				3A3AB7191AF9432C008BB4BB /* TypeTextView.swift in Sources */,
 				3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */,
+				3A07501E1AFCAD76002EE3BF /* MainWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

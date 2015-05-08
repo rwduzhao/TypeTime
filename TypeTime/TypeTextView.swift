@@ -44,25 +44,27 @@ class TypeTextView: NSTextView, TypeTextViewDelegate {
         font = defaultFont
     }
 
-    override func keyDown(theEvent: NSEvent) {
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        let userInfo = ["sender": self, "event": theEvent]
-        notificationCenter.postNotificationName("KeyDownInTypeTextViewNotification", object: self, userInfo: userInfo)
-
-        switch theEvent.keyCode {
-        case 0x7B...0x7E:  // arrow keys
-            break
-        default:
-            super.keyDown(theEvent)
+    override var readablePasteboardTypes: [AnyObject] {
+        get {
+            return [AnyObject]()
         }
     }
 
-    override func readSelectionFromPasteboard(pboard: NSPasteboard) -> Bool {
-        return false
-    }
+    override func keyDown(theEvent: NSEvent) {
+        if editable == true {
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            let userInfo = ["sender": self, "event": theEvent]
+            notificationCenter.postNotificationName("KeyDownInTypeTextViewNotification", object: self, userInfo: userInfo)
 
-    override func readSelectionFromPasteboard(pboard: NSPasteboard, type: String) -> Bool {
-        return false
+            switch theEvent.keyCode {
+            case 0x7B, 0x7D, 0x7E:  // arrow keys
+                break
+            default:
+                super.keyDown(theEvent)
+            }
+        } else {
+            super.keyDown(theEvent)
+        }
     }
 
     override func mouseDown(theEvent: NSEvent) {

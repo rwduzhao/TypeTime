@@ -34,6 +34,38 @@ class ReferenceTextView: NSTextView {
         + "文段编辑：Shift + Command + Enter\n\n"
         + "开发与测试环境：OS X Yosemite"
 
+    func shrinkString() {
+        let string = textStorage!.string
+        let components = string.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).filter({!isEmpty($0)})
+        let shrinkedString = join("", components)
+        textStorage!.mutableString.setString(shrinkedString)
+    }
+
+    func shuffleString() {
+        func shuffle<C: MutableCollectionType where C.Index == Int>(var list: C) -> C {
+            let c = count(list)
+            for i in 0..<(c - 1) {
+                let j = Int(arc4random_uniform(UInt32(c - i))) + i
+                swap(&list[i], &list[j])
+            }
+            return list
+        }
+
+        let string = textStorage!.string
+        let stringLength = textStorage!.length
+        let indices = [Int](0..<stringLength)
+        let shuffledIndices = shuffle(indices)
+        var shuffledString = ""
+        for index in shuffledIndices {
+            let appendedString = string.substringWithRange(
+                Range<String.Index>(start: advance(string.startIndex, index),
+                    end: advance(string.startIndex, index + 1)))
+            shuffledString += appendedString
+        }
+
+        textStorage!.mutableString.setString(shuffledString)
+    }
+
     func setupInitLookup() {
         inactivate()
         textStorage?.mutableString.setString(helpMessage)

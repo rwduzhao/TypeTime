@@ -13,6 +13,7 @@ enum TypeState: Printable {
     case On
     case Paused
     case End
+    // case Locked
 
     var description: String {
         get {
@@ -42,16 +43,17 @@ class TypeMonitor: NSObject {
 
     private var numKeyDown = 0
     private var numCharIn = 0
-    private var typeLength = 0
-    private var typoIndices = Set<Int>()
-    private var historyTypoIndices = Set<Int>()
+    private var cursorLocation = 0
+    private var charTimeIntervals = [Double]()
+    private var typoIndices = [Int]()
+    private var historyTypoIndices = [Int]()
 
     var infoLine: String {
         get {
             let rateStats = calcRateStatistics()
             let rateKeyDown = rateStats["rateKeyDown"]!
             let rateCorrectChar = rateStats["rateCorrectChar"]!
-            let line = "\(state)：正确\(typeLength - typoIndices.count)字符 "
+            let line = "\(state)：正确\(cursorLocation - getNumTypo())字符 "
                 + "每分\(num2String(rateCorrectChar))字符 "
                 + "每秒\(num2String(rateKeyDown))击键"
             return line
@@ -72,32 +74,46 @@ class TypeMonitor: NSObject {
         numCharIn += n
     }
 
-    func getTypeLength() -> Int {
-        return typeLength
+    func getCursorLocation() -> Int {
+        return cursorLocation
     }
 
-    func setTypeLength(n: Int) {
-        typeLength = n
+    func forwardCursorLocation(n: Int) {
+        cursorLocation += n
     }
 
-    func getTypoIndices() -> Set<Int> {
-        return typoIndices
+    func backwardCursorLocation(n: Int) {
+        cursorLocation = max(cursorLocation - n, 0)
     }
 
-    func insertIntoTypoIndices(n: Int) {
-        typoIndices.insert(n)
+    func setCharTimeItervalsAt(n: Int, timeInterval: NSTimeInterval) {
+        charTimeIntervals[n] = timeInterval
     }
 
-    func removeFromTypoIndices(n: Int) {
-        typoIndices.remove(n)
+    func getNumTypo() -> Int {
+        return typoIndices.reduce(0, combine: +)
+    }
+
+    func setTypoIndicesAt(n: Int) {
+        typoIndices[n] = 1
+    }
+
+    func clearTypoIndiceAt(n: Int) {
+        typoIndices[n] = 0
     }
 
     func getHistoryTypoIndices() -> Set<Int> {
-        return historyTypoIndices
+        var set = Set<Int>()
+        for index in historyTypoIndices {
+            if index > 0 {
+                set.insert(index)
+            }
+        }
+        return set
     }
 
-    func insertIntoHistoryTypoIndices(n: Int) {
-        historyTypoIndices.insert(n)
+    func setHistoryTypoIndicesAt(n: Int) {
+        historyTypoIndices[n] = 0
     }
 
     // state changes
@@ -113,8 +129,9 @@ class TypeMonitor: NSObject {
 
         numKeyDown = 0
         numCharIn = 0
-        typeLength = 0
+        cursorLocation = 0
 
+        charTimeIntervals = []
         typoIndices = []
         historyTypoIndices = []
     }
@@ -130,8 +147,11 @@ class TypeMonitor: NSObject {
         }
     }
 
-    func startOver() {
+    func StartOverAccordingToReference(referenceTextLength: Int) {
         reset()
+        charTimeIntervals = [NSTimeInterval](count: referenceTextLength, repeatedValue: 0.0)
+        typoIndices = [Int](count: referenceTextLength, repeatedValue: 0)
+        historyTypoIndices = [Int](count: referenceTextLength, repeatedValue: 0)
         start()
     }
 
@@ -171,7 +191,7 @@ class TypeMonitor: NSObject {
     func calcRateStatistics() -> [String: Double] {
         var rateStats = [String: Double]()
         rateStats["rateKeyDown"] = Double(numKeyDown) / Double(timeInterval)
-        rateStats["rateCorrectChar"] = Double(typeLength - typoIndices.count) / Double(timeInterval) * 60.0
+        rateStats["rateCorrectChar"] = Double(cursorLocation - getNumTypo()) / Double(timeInterval) * 60.0
         return rateStats
     }
 

@@ -55,23 +55,14 @@ class TypeTextView: NSTextView, TypeTextViewDelegate {
             let notificationCenter = NSNotificationCenter.defaultCenter()
             let userInfo = ["sender": self, "event": theEvent]
             notificationCenter.postNotificationName("KeyDownInTypeTextViewNotification", object: self, userInfo: userInfo)
-
             switch theEvent.keyCode {
-            case 0x7B, 0x7D, 0x7E:  // arrow keys
+            case 0x7B, 0x7C, 0x7D, 0x7E:  // arrow keys
                 break
             default:
                 super.keyDown(theEvent)
             }
         } else {
             super.keyDown(theEvent)
-        }
-    }
-
-    override func shouldChangeTextInRange(affectedCharRange: NSRange, replacementString: String?) -> Bool {
-        if editable == true && affectedCharRange.length > 1 && affectedCharRange.location == 0 {
-            return false
-        } else {
-            return true
         }
     }
 

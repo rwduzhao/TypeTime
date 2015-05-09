@@ -581,6 +581,59 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Reference" id="QVO-wO-NsX">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Reference" id="2d3-Qg-X07">
+                                    <items>
+                                        <menuItem title="Edit" id="0yL-x6-ssm">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="referenceEdit:" target="Voe-Tx-rLC" id="ynn-v1-OdM"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shrink" id="b34-sX-qgH">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="referenceShrink:" target="Voe-Tx-rLC" id="GnO-aU-W8c"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shuffle" id="cyz-Kx-HmC">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="referenceShuffle:" target="Voe-Tx-rLC" id="cEF-3N-LdB"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Type" id="gLu-tA-9St">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Type" id="4rh-uC-UiU">
+                                    <items>
+                                        <menuItem title="Start" keyEquivalent="l" id="1kl-CX-f8Z">
+                                            <connections>
+                                                <action selector="typeReady:" target="Voe-Tx-rLC" id="Sfn-Uh-iep"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Pause" keyEquivalent="p" id="Cqp-zn-rtp">
+                                            <connections>
+                                                <action selector="typeTogglePause:" target="Voe-Tx-rLC" id="fYt-rG-cXR"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Submit" id="HAm-B4-xMJ">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                            <connections>
+                                                <action selector="typeSubmit:" target="Voe-Tx-rLC" id="cxF-b3-xPm"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="View" id="H8h-7b-M4v">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
@@ -602,41 +655,6 @@
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="PKo-Xg-qsd"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
-                            <menuItem title="Type" id="gLu-tA-9St">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Type" id="4rh-uC-UiU">
-                                    <items>
-                                        <menuItem title="Start" keyEquivalent="l" id="1kl-CX-f8Z">
-                                            <connections>
-                                                <action selector="typeReady:" target="Voe-Tx-rLC" id="Sfn-Uh-iep"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Toggle Pause" keyEquivalent="p" id="Cqp-zn-rtp">
-                                            <connections>
-                                                <action selector="typeTogglePause:" target="Voe-Tx-rLC" id="fYt-rG-cXR"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Submit" id="HAm-B4-xMJ">
-                                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                                            <connections>
-                                                <action selector="typeSubmit:" target="Voe-Tx-rLC" id="cxF-b3-xPm"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="aBA-Ms-7wX"/>
-                                        <menuItem title="Toggle Edit Reference" id="czf-xy-FPx">
-                                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="typeEditReference:" target="Voe-Tx-rLC" id="Q5k-3s-HEo"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -749,7 +767,7 @@ DQ
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Koc-Uu-Ou9">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Koc-Uu-Ou9">
                                 <rect key="frame" x="20" y="56" width="600" height="444"/>
                                 <clipView key="contentView" id="AZk-k4-O4g">
                                     <rect key="frame" x="1" y="1" width="223" height="133"/>
@@ -768,7 +786,7 @@ DQ
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="QAy-8r-nXG">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="QAy-8r-nXG">
                                     <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -796,6 +814,7 @@ DQ
                     </view>
                     <connections>
                         <outlet property="referenceTextView" destination="WwM-tA-asi" id="JYI-UT-ddQ"/>
+                        <outlet property="typeTextScrollView" destination="fK7-lA-MHx" id="U1e-uO-Ff6"/>
                         <outlet property="typeTextView" destination="qbf-7B-Nua" id="Goy-9a-kWn"/>
                     </connections>
                 </viewController>

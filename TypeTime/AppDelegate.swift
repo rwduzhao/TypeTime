@@ -188,10 +188,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         notificationCenter.postNotificationName("SubmitTypeNotification", object: self, userInfo: userInfo)
     }
 
-    @IBAction func typeEditReference(sender: NSMenuItem) {
+    @IBAction func referenceEdit(sender: NSMenuItem) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
         let userInfo = ["sender": sender]
         notificationCenter.postNotificationName("ToggleEditReferenceNotification", object: self, userInfo: userInfo)
     }
 
+    @IBAction func referenceShrink(sender: NSMenuItem) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let userInfo = ["sender": sender]
+        notificationCenter.postNotificationName("ShrinkReferenceNotification", object: self, userInfo: userInfo)
+    }
+
+    @IBAction func referenceShuffle(sender: AnyObject) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let userInfo = ["sender": sender]
+        notificationCenter.postNotificationName("ShuffleReferenceNotification", object: self, userInfo: userInfo)
+    }
 }

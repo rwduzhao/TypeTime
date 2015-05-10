@@ -57,19 +57,17 @@ class ReferenceTextView: NSTextView {
             return list
         }
 
-        let string = textStorage!.string
-        let stringLength = textStorage!.length
-        let indices = [Int](0..<stringLength)
+        let string = textStorage!.mutableString
+        let shuffledString = textStorage!.mutableCopy() as! NSMutableAttributedString
+        let indices = [Int](0..<string.length)
         let shuffledIndices = shuffle(indices)
-        var shuffledString = ""
+        var n = 0
         for index in shuffledIndices {
-            let appendedString = string.substringWithRange(
-                Range<String.Index>(start: advance(string.startIndex, index),
-                    end: advance(string.startIndex, index + 1)))
-            shuffledString += appendedString
+            let replaceString = string.substringWithRange(NSMakeRange(index, 1))
+            shuffledString.replaceCharactersInRange(NSMakeRange(n, 1), withString: replaceString)
+            ++n
         }
-
-        textStorage!.mutableString.setString(shuffledString)
+        textStorage!.mutableString.setString(shuffledString.string)
     }
 
     func setupInitLookup() {

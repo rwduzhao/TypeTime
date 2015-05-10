@@ -208,8 +208,6 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     func textDidChange(notification: NSNotification) {
         switch typeMonitor.getState() {
         case .On:
-            // lastTypeTextLength
-
             let typeString = typeTextView.textStorage!.mutableString
             let referenceString = referenceTextView.textStorage!.mutableString
 

@@ -51,18 +51,12 @@ class TypeMonitor: NSObject {
 
     var infoLine: String {
         get {
+            let numCorrectChar = cursorLocation - getNumTypo()
             let rateStats = calcRateStatistics()
             let rateKeyDown = rateStats["rateKeyDown"]!
             let rateCorrectChar = rateStats["rateCorrectChar"]!
-            var displayNumReferenceChar = ""
-            if numReferenceChar == nil {
-                displayNumReferenceChar = "nil"
-            } else {
-                let num = numReferenceChar!
-                displayNumReferenceChar = "\(num)"
-            }
             let line = "[\(state)] "
-                + "正确：\(cursorLocation - getNumTypo())/\(displayNumReferenceChar) "
+                + "正确：\(numCorrectChar)/\(num2String(numReferenceChar)) "
                 + "字速：\(num2String(rateCorrectChar)) "
                 + "击键：\(num2String(rateKeyDown))"
             return line
@@ -96,7 +90,7 @@ class TypeMonitor: NSObject {
     }
 
     func getTypedCharTimeIntervals() -> [NSTimeInterval] {
-        return Array(charTimeIntervals[0...min(cursorLocation, numReferenceChar! - 1)])
+        return Array(charTimeIntervals[0..<max(cursorLocation, 0)])
     }
 
     func setCharTimeIntervalsAt(n: Int, timeInterval: NSTimeInterval) {
@@ -218,12 +212,21 @@ class TypeMonitor: NSObject {
     func calcRateStatistics() -> [String: Double] {
         var rateStats = [String: Double]()
         rateStats["rateKeyDown"] = Double(numKeyDown) / Double(timeInterval)
-        rateStats["rateCorrectChar"] = Double(cursorLocation - getNumTypo()) / Double(timeInterval) * 60.0
+        let numCorrectChar = cursorLocation - getNumTypo()
+        rateStats["rateCorrectChar"] = Double(numCorrectChar) / Double(timeInterval) * 60.0
         return rateStats
     }
 
     func num2String(num: Double) -> String {
         return NSString(format: "%.2f", num) as String
+    }
+
+    func num2String(num: Int?) -> String {
+        if let nonNilNum = num {
+            return "\(nonNilNum)"
+        } else {
+            return "nil"
+        }
     }
 
 }

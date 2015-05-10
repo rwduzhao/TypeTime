@@ -59,13 +59,12 @@ class ReferenceTextView: NSTextView {
 
         let string = textStorage!.mutableString
         let shuffledString = textStorage!.mutableCopy() as! NSMutableAttributedString
-        let indices = [Int](0..<string.length)
-        let shuffledIndices = shuffle(indices)
-        var n = 0
+        let shuffledIndices = shuffle([Int](0..<string.length))
+        var charLocation = 0
         for index in shuffledIndices {
             let replaceString = string.substringWithRange(NSMakeRange(index, 1))
-            shuffledString.replaceCharactersInRange(NSMakeRange(n, 1), withString: replaceString)
-            ++n
+            shuffledString.replaceCharactersInRange(NSMakeRange(charLocation, 1), withString: replaceString)
+            ++charLocation
         }
         textStorage!.mutableString.setString(shuffledString.string)
     }

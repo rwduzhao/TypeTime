@@ -219,12 +219,12 @@ class ViewController: NSViewController, TypeTextViewDelegate {
                 // check typoes and do markups
                 var numBufferTypo = 0
                 for bufferCharIndex in lastTypeTextLength..<typeString.length {
-                    let bufferChar = typeString.substringWithRange(NSMakeRange(bufferCharIndex, 1))
+                    let bufferChar = typeString.characterAtIndex(bufferCharIndex)
                     let referenceCharIndex = typeMonitor.getCursorLocation()
                     if referenceCharIndex < referenceString.length {  // type within reference length
                         typeMonitor.addCharTimeIntervalsAt(referenceCharIndex, timeInterval: bufferTimeInterval)
                         referenceTextView.markTextAsTypedAtIndex(referenceCharIndex)
-                        let referenceChar = referenceString.substringWithRange(NSMakeRange(referenceCharIndex, 1))
+                        let referenceChar = referenceString.characterAtIndex(referenceCharIndex)
                         if referenceChar != bufferChar {
                             ++numBufferTypo
                             typeMonitor.setHistoryTypoIndicesAt(referenceCharIndex)
@@ -268,25 +268,25 @@ class ViewController: NSViewController, TypeTextViewDelegate {
                         typeMonitor.clearHistoryTypoIndiceAt(cursorLocation)
                         referenceTextView.clearTextMarkAtIndex(cursorLocation)
                     }
-                    let cursorLocation = typeMonitor.getCursorLocation()
-                    let bufferChar = typeString.substringWithRange(NSMakeRange(typeString.length - 1, 1))
-                    let referenceChar = referenceString.substringWithRange(NSMakeRange(cursorLocation - 1, 1))
+                    let compareCharLocation = typeMonitor.getCursorLocation() - 1
+                    let bufferChar = typeString.characterAtIndex(compareCharLocation)
+                    let referenceChar = referenceString.characterAtIndex(compareCharLocation)
                     if bufferChar == referenceChar {
-                        typeMonitor.clearTypoIndiceAt(cursorLocation - 1)
-                        typeMonitor.clearHistoryTypoIndiceAt(cursorLocation - 1)
-                        referenceTextView.clearTextMarkAtIndex(cursorLocation - 1)
+                        typeMonitor.clearTypoIndiceAt(compareCharLocation)
+                        typeMonitor.clearHistoryTypoIndiceAt(compareCharLocation)
+                        referenceTextView.clearTextMarkAtIndex(compareCharLocation)
                         typeTextView.clearString()
                         numBufferKeyDown = 0
                     }
                 }
             } else {
-                let cursorLocation = typeMonitor.getCursorLocation()
-                let bufferChar = typeString.substringWithRange(NSMakeRange(typeString.length - 1, 1))
-                let referenceChar = referenceString.substringWithRange(NSMakeRange(cursorLocation - 1, 1))
+                let compareCharLocation = typeMonitor.getCursorLocation() - 1
+                let bufferChar = typeString.characterAtIndex(compareCharLocation)
+                let referenceChar = referenceString.characterAtIndex(compareCharLocation)
                 if bufferChar == referenceChar {
-                    typeMonitor.clearTypoIndiceAt(cursorLocation - 1)
-                    typeMonitor.clearHistoryTypoIndiceAt(cursorLocation - 1)
-                    referenceTextView.clearTextMarkAtIndex(cursorLocation - 1)
+                    typeMonitor.clearTypoIndiceAt(compareCharLocation)
+                    typeMonitor.clearHistoryTypoIndiceAt(compareCharLocation)
+                    referenceTextView.clearTextMarkAtIndex(compareCharLocation)
                     typeTextView.clearString()
                     numBufferKeyDown = 0
                 }

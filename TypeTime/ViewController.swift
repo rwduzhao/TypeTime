@@ -12,7 +12,6 @@ class ViewController: NSViewController, TypeTextViewDelegate {
 
     @IBOutlet var referenceTextView: ReferenceTextView!
     @IBOutlet var typeTextView: TypeTextView!
-    @IBOutlet weak var typeTextScrollView: NSScrollView!
 
     var typeMonitor = TypeMonitor()
     var snapshotTypeString: String?

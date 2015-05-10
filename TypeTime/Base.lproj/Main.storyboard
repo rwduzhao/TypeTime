@@ -811,7 +811,6 @@ DQ
                     </view>
                     <connections>
                         <outlet property="referenceTextView" destination="WwM-tA-asi" id="JYI-UT-ddQ"/>
-                        <outlet property="typeTextScrollView" destination="fK7-lA-MHx" id="U1e-uO-Ff6"/>
                         <outlet property="typeTextView" destination="qbf-7B-Nua" id="Goy-9a-kWn"/>
                     </connections>
                 </viewController>

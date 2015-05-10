@@ -18,21 +18,27 @@ class ReferenceTextView: NSTextView {
         NSBackgroundColorAttributeName: NSColor.windowBackgroundColor()]
 
     let enTypedStringAttributes: [String: AnyObject] = [NSBackgroundColorAttributeName: NSColor.controlShadowColor()]
-    let deTypedStringAttributes: [String: AnyObject] = [NSBackgroundColorAttributeName: NSColor.windowBackgroundColor()]
+    let deTypedStringAttributes: [String: AnyObject] = [NSBackgroundColorAttributeName: NSColor.clearColor()]
 
-    let enTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.redColor()]
+    let enTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.redColor().colorWithAlphaComponent(0.5)]
     let deTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.textColor()]
 
-    let enHistoryTypoStringAttributes: [String: AnyObject] = [NSBackgroundColorAttributeName: NSColor.yellowColor()]
-    let deHistroyTypoStringAttributes: [String: AnyObject] = [NSBackgroundColorAttributeName: NSColor.windowBackgroundColor()]
+    let enHistoryTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.blueColor().colorWithAlphaComponent(0.5)]
+    let deHistroyTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.textColor()]
 
-    let helpMessage = "欢迎使用TypeTime跟打器\n\n"
+    let helpMessage = "欢迎使用TypeTime跟打器\n"
+        + "\n"
         + "操作说明：\n"
+        + "\n"
         + "开始新的跟打：Command + L\n"
         + "暂停及恢复跟打：Command + P\n"
-        + "完成跟打并递交成绩：Command + Enter\n"
-        + "文段编辑：Shift + Command + Enter\n\n"
-        + "开发与测试环境：OS X Yosemite"
+        + "完成跟打并查看成绩：Command + Enter\n"
+        + "\n"
+        + "编辑文段：Shift + Command + I\n"
+        + "打乱文段：Shift + Command + R\n"
+        + "修剪文段：Shift + Command + T\n"
+        + "\n"
+        + "开发与测试环境：OS X Yosemite，Squirrel"
 
     func shrinkString() {
         let string = textStorage!.string
@@ -119,6 +125,20 @@ class ReferenceTextView: NSTextView {
             }
         }
         textStorage?.setAttributedString(attributedString)
+    }
+
+    func markTextTimeInteval(timeIntervals: [NSTimeInterval]) {
+        if timeIntervals.count > 0 {
+            let maxTimeInterval = timeIntervals.reduce(timeIntervals[0], combine: { max($0, $1) })
+            var attributedString = textStorage!.mutableCopy() as! NSMutableAttributedString
+            for index in 0..<timeIntervals.count {
+                let alphaValue = (1.0 - CGFloat(timeIntervals[index] / maxTimeInterval))
+                let color = NSColor.grayColor().colorWithAlphaComponent(alphaValue)
+                let stringAttributes: [String: AnyObject] = [NSBackgroundColorAttributeName: color]
+                attributedString.addAttributes(stringAttributes, range: NSMakeRange(index, 1))
+            }
+            textStorage?.setAttributedString(attributedString)
+        }
     }
 
 }

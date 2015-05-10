@@ -19,9 +19,9 @@ enum TypeState: Printable {
         get {
             switch self {
             case .Off:
-                return "关闭"
+                return "后台"
             case .On:
-                return "进行"
+                return "跟打"
             case .Paused:
                 return "暂停"
             case .End:
@@ -42,9 +42,10 @@ class TypeMonitor: NSObject {
     private var timeInterval: NSTimeInterval = 0.0
 
     private var numKeyDown = 0
+    private var numReferenceChar: Int?
     private var numCharIn = 0
     private var cursorLocation = 0
-    private var charTimeIntervals = [Double]()
+    private var charTimeIntervals = [NSTimeInterval]()
     private var typoIndices = [Int]()
     private var historyTypoIndices = [Int]()
 
@@ -53,9 +54,17 @@ class TypeMonitor: NSObject {
             let rateStats = calcRateStatistics()
             let rateKeyDown = rateStats["rateKeyDown"]!
             let rateCorrectChar = rateStats["rateCorrectChar"]!
-            let line = "\(state)：正确\(cursorLocation - getNumTypo())字符 "
-                + "每分\(num2String(rateCorrectChar))字符 "
-                + "每秒\(num2String(rateKeyDown))击键"
+            var displayNumReferenceChar = ""
+            if numReferenceChar == nil {
+                displayNumReferenceChar = "nil"
+            } else {
+                let num = numReferenceChar!
+                displayNumReferenceChar = "\(num)"
+            }
+            let line = "[\(state)] "
+                + "正确：\(cursorLocation - getNumTypo())/\(displayNumReferenceChar) "
+                + "字速：\(num2String(rateCorrectChar)) "
+                + "击键：\(num2String(rateKeyDown))"
             return line
         }
     }
@@ -86,8 +95,16 @@ class TypeMonitor: NSObject {
         cursorLocation = max(cursorLocation - n, 0)
     }
 
-    func setCharTimeItervalsAt(n: Int, timeInterval: NSTimeInterval) {
+    func getTypedCharTimeIntervals() -> [NSTimeInterval] {
+        return Array(charTimeIntervals[0...min(cursorLocation, numReferenceChar! - 1)])
+    }
+
+    func setCharTimeIntervalsAt(n: Int, timeInterval: NSTimeInterval) {
         charTimeIntervals[n] = timeInterval
+    }
+
+    func addCharTimeIntervalsAt(n: Int, timeInterval: NSTimeInterval) {
+        charTimeIntervals[n] += timeInterval
     }
 
     func getNumTypo() -> Int {
@@ -102,18 +119,22 @@ class TypeMonitor: NSObject {
         typoIndices[n] = 0
     }
 
-    func getHistoryTypoIndices() -> Set<Int> {
+    func getHistoryTypoIndicesWithoutActiveTypos() -> Set<Int> {
         var set = Set<Int>()
-        for index in historyTypoIndices {
-            if index > 0 {
+        for index in 0..<historyTypoIndices.count {
+            if historyTypoIndices[index] > 0 && typoIndices[index] == 0 {
                 set.insert(index)
             }
         }
         return set
     }
 
-    func setHistoryTypoIndicesAt(n: Int) {
+    func clearHistoryTypoIndiceAt(n: Int) {
         historyTypoIndices[n] = 0
+    }
+
+    func setHistoryTypoIndicesAt(n: Int) {
+        historyTypoIndices[n] = 1
     }
 
     // state changes
@@ -128,12 +149,21 @@ class TypeMonitor: NSObject {
         timeInterval = 0.0
 
         numKeyDown = 0
+        numReferenceChar = nil
         numCharIn = 0
         cursorLocation = 0
 
         charTimeIntervals = []
         typoIndices = []
         historyTypoIndices = []
+    }
+
+    func resetAccordingToReference(referenceTextLength: Int) {
+        reset()
+        numReferenceChar = referenceTextLength
+        charTimeIntervals = [NSTimeInterval](count: numReferenceChar!, repeatedValue: 0.0)
+        typoIndices = [Int](count: numReferenceChar!, repeatedValue: 0)
+        historyTypoIndices = [Int](count: numReferenceChar!, repeatedValue: 0)
     }
 
     func start() {
@@ -148,10 +178,7 @@ class TypeMonitor: NSObject {
     }
 
     func StartOverAccordingToReference(referenceTextLength: Int) {
-        reset()
-        charTimeIntervals = [NSTimeInterval](count: referenceTextLength, repeatedValue: 0.0)
-        typoIndices = [Int](count: referenceTextLength, repeatedValue: 0)
-        historyTypoIndices = [Int](count: referenceTextLength, repeatedValue: 0)
+        resetAccordingToReference(referenceTextLength)
         start()
     }
 

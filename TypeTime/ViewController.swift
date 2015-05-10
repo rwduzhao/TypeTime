@@ -16,19 +16,23 @@ class ViewController: NSViewController, TypeTextViewDelegate {
 
     var typeMonitor = TypeMonitor()
     var snapshotTypeString: String?
+    var bufferKeyCode: UInt16?
     var numBufferKeyDown = 0
     var bufferDate: NSDate?
+    var bufferTimeOffset: NSTimeInterval = 0.0
+    var lastTypeTextLength = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        addObserver()
+
+        typeTextView.delegate = self
+
         referenceTextView.setupInitLookup()
         typeTextView.setupInitLookup()
 
-        typeTextView.delegate = self
-        typeTextScrollView.contentView.postsBoundsChangedNotifications = true
-
-        addObserver()
+        resetTypeInformationAccordingToReference()
     }
 
     deinit {
@@ -64,8 +68,10 @@ class ViewController: NSViewController, TypeTextViewDelegate {
 
         typeTextView.clearString()
         snapshotTypeString = nil
+        bufferKeyCode = 0
         numBufferKeyDown = 0
-        bufferDate = nil
+        lastTypeTextLength = 0
+        bufferDate = NSDate()
         typeTextView.activate()
         typeTextView.setDefaultFont()
 
@@ -76,6 +82,10 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         switch typeMonitor.getState() {
         case .On:
             typeTextView.inactivate()
+            let cursorLocation = typeMonitor.getCursorLocation()
+            let bufferTimeInterval = 0 - bufferDate!.timeIntervalSinceNow
+            bufferDate = nil
+            typeMonitor.addCharTimeIntervalsAt(cursorLocation, timeInterval: bufferTimeInterval)
             typeMonitor.pause()
             snapshotTypeString = typeTextView.textStorage?.mutableString as? String
             typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
@@ -84,6 +94,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
             typeTextView.textStorage?.mutableString.setString(snapshotTypeString!)
             snapshotTypeString = nil
             typeMonitor.resume()
+            bufferDate = NSDate()
             typeTextView.activate()
             typeTextView.setDefaultFont()
         default:
@@ -109,11 +120,18 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         }
 
         if isNeedMarkReference {
-            typeTextView.textStorage?.mutableString.setString("标计跟打信息中...")
+            typeTextView.textStorage?.mutableString.setString("标计跟打信息，请稍候...")
             typeTextView.setDefaultFont()
-            referenceTextView.markTextAsHistoryTypoAtIndices(typeMonitor.getHistoryTypoIndices())
+            referenceTextView.markTextAsHistoryTypoAtIndices(typeMonitor.getHistoryTypoIndicesWithoutActiveTypos())
+            referenceTextView.markTextTimeInteval(typeMonitor.getTypedCharTimeIntervals())
         }
 
+        typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
+        typeTextView.setDefaultFont()
+    }
+
+    func resetTypeInformationAccordingToReference() {
+        typeMonitor.resetAccordingToReference(referenceTextView.textStorage!.length)
         typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
         typeTextView.setDefaultFont()
     }
@@ -127,10 +145,11 @@ class ViewController: NSViewController, TypeTextViewDelegate {
             typeTextView.setDefaultFont()
             referenceTextView.inactivate()
             referenceTextView.markAllTextAsNormal()
+            resetTypeInformationAccordingToReference()
         case false:
             typeMonitor.reset()
             typeTextView.inactivate()
-            let keyEquivalent = "Shift + Command + Enter"
+            let keyEquivalent = "Shift + Command + I"
             typeTextView.textStorage?.mutableString.setString("结束编辑请按：" + keyEquivalent)
             typeTextView.setDefaultFont()
             referenceTextView.activate()
@@ -148,6 +167,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         referenceTextView.inactivate()
         referenceTextView.shrinkString()
         referenceTextView.markAllTextAsNormal()
+        resetTypeInformationAccordingToReference()
     }
 
     func shuffleReference() {
@@ -158,28 +178,27 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         referenceTextView.inactivate()
         referenceTextView.shuffleString()
         referenceTextView.markAllTextAsNormal()
+        resetTypeInformationAccordingToReference()
     }
 
     func keyDownInInputTextView(notification: NSNotification) {
         switch typeMonitor.getState() {
         case .On:
+            ++numBufferKeyDown
             typeMonitor.incrementNumKeyDown()
+
             let userInfo = notification.userInfo as! [String: AnyObject]
             let event = userInfo["event"] as! NSEvent
-            let keyCode = event.keyCode
-            if numBufferKeyDown == 0 && keyCode == 51 {  // backspace as delete previous char
+            bufferKeyCode = event.keyCode
+
+            // delete action in blank typeTextView
+            if typeTextView.textStorage!.length == 0 && bufferKeyCode == 51 {
                 typeMonitor.backwardCursorLocation(1)
                 let cursorLocation = typeMonitor.getCursorLocation()
                 typeMonitor.clearTypoIndiceAt(cursorLocation)
                 referenceTextView.clearTextMarkAtIndex(cursorLocation)
-            } else if keyCode == 51 {
-                numBufferKeyDown = max(--numBufferKeyDown, 0)
-            } else {
-                ++numBufferKeyDown
-                if numBufferKeyDown == 1 {  // on first new type in
-                    typeTextView.clearString()
-                    bufferDate = NSDate()
-                }
+                --numBufferKeyDown
+                numBufferKeyDown = 0
             }
         default:
             break
@@ -189,26 +208,25 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     func textDidChange(notification: NSNotification) {
         switch typeMonitor.getState() {
         case .On:
-            if numBufferKeyDown != 0 {  // not delete last char in typeTextView
-                let bufferTimeInterval = 0 - bufferDate!.timeIntervalSinceNow
-                bufferDate = nil
+            // lastTypeTextLength
 
-                let referencStringLength = referenceTextView.textStorage!.mutableString.length
-                let bufferCharLength = typeTextView.textStorage!.mutableString.length
-                typeMonitor.addNumCharIn(bufferCharLength)
-                let averageBufferCharTimeInterval = bufferTimeInterval / Double(bufferCharLength)
+            let typeString = typeTextView.textStorage!.mutableString
+            let referenceString = referenceTextView.textStorage!.mutableString
+
+            let numBufferCharDiff = typeString.length - lastTypeTextLength
+            if numBufferCharDiff > 0 {  // type in new chars
+                typeMonitor.addNumCharIn(numBufferCharDiff)
+                let bufferTimeInterval = bufferTimeOffset - bufferDate!.timeIntervalSinceNow
 
                 // check typoes and do markups
                 var numBufferTypo = 0
-                let bufferCharStartIndex = 0
-                let bufferCharEndIndex = bufferCharLength - 1
-                for bufferCharIndex in bufferCharStartIndex...bufferCharEndIndex {
-                    let bufferChar = typeTextView.textStorage!.mutableString.substringWithRange(NSMakeRange(bufferCharIndex, 1))
+                for bufferCharIndex in lastTypeTextLength..<typeString.length {
+                    let bufferChar = typeString.substringWithRange(NSMakeRange(bufferCharIndex, 1))
                     let referenceCharIndex = typeMonitor.getCursorLocation()
-                    if referenceCharIndex < referencStringLength {  // type within reference length
-                        typeMonitor.setCharTimeItervalsAt(referenceCharIndex, timeInterval: averageBufferCharTimeInterval)
+                    if referenceCharIndex < referenceString.length {  // type within reference length
+                        typeMonitor.addCharTimeIntervalsAt(referenceCharIndex, timeInterval: bufferTimeInterval)
                         referenceTextView.markTextAsTypedAtIndex(referenceCharIndex)
-                        let referenceChar = referenceTextView.textStorage!.mutableString.substringWithRange(NSMakeRange(referenceCharIndex, 1))
+                        let referenceChar = referenceString.substringWithRange(NSMakeRange(referenceCharIndex, 1))
                         if referenceChar != bufferChar {
                             ++numBufferTypo
                             typeMonitor.setHistoryTypoIndicesAt(referenceCharIndex)
@@ -216,24 +234,67 @@ class ViewController: NSViewController, TypeTextViewDelegate {
                             referenceTextView.markTextAsTypoAtIndex(referenceCharIndex)
                         }
                         typeMonitor.forwardCursorLocation(1)
-                    } else {
+                    } else {  // type out of reference text bound
                         typeTextView.clearString()
                         break
                     }
                 }
 
-                // clean buffer
-                if numBufferTypo == 0 {
+                // commit buffer and clear
+                let isCommitKeyCodeBuffered = (bufferKeyCode == 36 || bufferKeyCode == 48 || bufferKeyCode == 49)
+                if numBufferTypo == 0 && isCommitKeyCodeBuffered {
                     typeTextView.clearString()
+                    numBufferKeyDown = 0
                 }
-                numBufferKeyDown = 0
 
                 // auto submit
-                let isCursorAfterLastReferenceChar = typeMonitor.getCursorLocation() == referencStringLength
-                if isCursorAfterLastReferenceChar && referencStringLength > 0 && typeMonitor.getNumTypo() == 0 {
+                let isCursorAfterLastReferenceChar = typeMonitor.getCursorLocation() == referenceString.length
+                if isCursorAfterLastReferenceChar && referenceString.length > 0 && typeMonitor.getNumTypo() == 0 {
                     submitType()
                 }
+            } else if numBufferCharDiff < 0 {
+                let numBufferCharDeleted = -numBufferCharDiff
+                if bufferKeyCode == 51 {  // delete by keyboard
+                    for location in typeString.length..<lastTypeTextLength {
+                        typeMonitor.backwardCursorLocation(1)
+                        let cursorLocation = typeMonitor.getCursorLocation()
+                        typeMonitor.clearTypoIndiceAt(cursorLocation)
+                        referenceTextView.clearTextMarkAtIndex(cursorLocation)
+                    }
+                } else {  // smart replacemet
+                    // FIXME may encounter potential runtime issues
+                    for location in typeString.length..<lastTypeTextLength {
+                        typeMonitor.backwardCursorLocation(1)
+                        let cursorLocation = typeMonitor.getCursorLocation()
+                        typeMonitor.clearTypoIndiceAt(cursorLocation)
+                        typeMonitor.clearHistoryTypoIndiceAt(cursorLocation)
+                        referenceTextView.clearTextMarkAtIndex(cursorLocation)
+                    }
+                    let cursorLocation = typeMonitor.getCursorLocation()
+                    let bufferChar = typeString.substringWithRange(NSMakeRange(typeString.length - 1, 1))
+                    let referenceChar = referenceString.substringWithRange(NSMakeRange(cursorLocation - 1, 1))
+                    if bufferChar == referenceChar {
+                        typeMonitor.clearTypoIndiceAt(cursorLocation - 1)
+                        typeMonitor.clearHistoryTypoIndiceAt(cursorLocation - 1)
+                        referenceTextView.clearTextMarkAtIndex(cursorLocation - 1)
+                        typeTextView.clearString()
+                        numBufferKeyDown = 0
+                    }
+                }
+            } else {
+                let cursorLocation = typeMonitor.getCursorLocation()
+                let bufferChar = typeString.substringWithRange(NSMakeRange(typeString.length - 1, 1))
+                let referenceChar = referenceString.substringWithRange(NSMakeRange(cursorLocation - 1, 1))
+                if bufferChar == referenceChar {
+                    typeMonitor.clearTypoIndiceAt(cursorLocation - 1)
+                    typeMonitor.clearHistoryTypoIndiceAt(cursorLocation - 1)
+                    referenceTextView.clearTextMarkAtIndex(cursorLocation - 1)
+                    typeTextView.clearString()
+                    numBufferKeyDown = 0
+                }
             }
+            lastTypeTextLength = typeString.length
+            bufferDate = NSDate()
         default:
             break
         }

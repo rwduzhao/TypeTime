@@ -581,34 +581,6 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Reference" id="QVO-wO-NsX">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Reference" id="2d3-Qg-X07">
-                                    <items>
-                                        <menuItem title="Edit" id="0yL-x6-ssm">
-                                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="referenceEdit:" target="Voe-Tx-rLC" id="ynn-v1-OdM"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Shrink" id="b34-sX-qgH">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="referenceShrink:" target="Voe-Tx-rLC" id="GnO-aU-W8c"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Shuffle" id="cyz-Kx-HmC">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="referenceShuffle:" target="Voe-Tx-rLC" id="cEF-3N-LdB"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
                             <menuItem title="Type" id="gLu-tA-9St">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Type" id="4rh-uC-UiU">
@@ -629,6 +601,31 @@ DQ
 </string>
                                             <connections>
                                                 <action selector="typeSubmit:" target="Voe-Tx-rLC" id="cxF-b3-xPm"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Reference" id="QVO-wO-NsX">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Reference" id="2d3-Qg-X07">
+                                    <items>
+                                        <menuItem title="Edit" keyEquivalent="I" id="0yL-x6-ssm">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="referenceEdit:" target="Voe-Tx-rLC" id="ynn-v1-OdM"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shuffle" keyEquivalent="R" id="cyz-Kx-HmC">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="referenceShuffle:" target="Voe-Tx-rLC" id="cEF-3N-LdB"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shrink" keyEquivalent="T" id="b34-sX-qgH">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="referenceShrink:" target="Voe-Tx-rLC" id="GnO-aU-W8c"/>
                                             </connections>
                                         </menuItem>
                                     </items>

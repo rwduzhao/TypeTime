@@ -205,4 +205,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let userInfo = ["sender": sender]
         notificationCenter.postNotificationName("ShuffleReferenceNotification", object: self, userInfo: userInfo)
     }
+
 }

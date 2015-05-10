@@ -172,38 +172,87 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func typeReady(sender: NSMenuItem) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = "StartTypeNotification"
         let userInfo = ["sender": self]
-        notificationCenter.postNotificationName("StartTypeNotification", object: self, userInfo: userInfo)
+        notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
     }
 
     @IBAction func typeTogglePause(sender: NSMenuItem) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = "TogglePauseTypeNotification"
         let userInfo = ["sender": sender]
-        notificationCenter.postNotificationName("TogglePauseTypeNotification", object: self, userInfo: userInfo)
+        notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
     }
 
     @IBAction func typeSubmit(sender: NSMenuItem) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = "SubmitTypeNotification"
         let userInfo = ["sender": sender]
-        notificationCenter.postNotificationName("SubmitTypeNotification", object: self, userInfo: userInfo)
+        notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
+    }
+
+    @IBAction func typeToggleAutoStart(sender: NSMenuItem) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        switch sender.state {
+        case NSOnState:
+            let userInfo = ["sender": sender]
+            let notification = "DisableAutoStartTypeNotification"
+            sender.state = NSOffState
+            notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
+        case NSOffState:
+            let userInfo = ["sender": sender]
+            let notification = "EnableAutoStartTypeNotification"
+            sender.state = NSOnState
+            notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
+        default:
+            break
+        }
     }
 
     @IBAction func referenceEdit(sender: NSMenuItem) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = "ToggleEditReferenceNotification"
         let userInfo = ["sender": sender]
-        notificationCenter.postNotificationName("ToggleEditReferenceNotification", object: self, userInfo: userInfo)
+        notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
+    }
+
+    @IBAction func refencePaste(sender: NSMenuItem) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = "PasteReferenceNotification"
+        let userInfo = ["sender": sender]
+        notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
     }
 
     @IBAction func referenceShrink(sender: NSMenuItem) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = "ShrinkReferenceNotification"
         let userInfo = ["sender": sender]
-        notificationCenter.postNotificationName("ShrinkReferenceNotification", object: self, userInfo: userInfo)
+        notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
     }
 
     @IBAction func referenceShuffle(sender: AnyObject) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notification = "ShuffleReferenceNotification"
         let userInfo = ["sender": sender]
-        notificationCenter.postNotificationName("ShuffleReferenceNotification", object: self, userInfo: userInfo)
+        notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
+    }
+
+    @IBAction func referenceToggleAutoShuffle(sender: NSMenuItem) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        switch sender.state {
+        case NSOnState:
+            let userInfo = ["sender": sender]
+            let notification = "DisableAutoShuffleReferenceNotification"
+            sender.state = NSOffState
+            notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
+        case NSOffState:
+            let userInfo = ["sender": sender]
+            let notification = "EnableAutoShuffleReferenceNotification"
+            sender.state = NSOnState
+            notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
+        default:
+            break
+        }
     }
 
 }

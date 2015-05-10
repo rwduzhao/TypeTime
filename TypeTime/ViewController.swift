@@ -21,6 +21,10 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     var bufferTimeOffset: NSTimeInterval = 0.0
     var lastTypeTextLength = 0
 
+    var isAutoStartType = false
+    var isAutoShuffleReference = false
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,20 +52,33 @@ class ViewController: NSViewController, TypeTextViewDelegate {
             name: "TogglePauseTypeNotification", object: nil)
         notificationCenter.addObserver(self, selector: "submitType",
             name: "SubmitTypeNotification", object: nil)
+        notificationCenter.addObserver(self, selector: "enableAutoStartType",
+            name: "EnableAutoStartTypeNotification", object: nil)
+        notificationCenter.addObserver(self, selector: "disableAutoStartType",
+            name: "DisableAutoStartTypeNotification", object: nil)
 
         notificationCenter.addObserver(self, selector: "toggleEditReference:",
             name: "ToggleEditReferenceNotification", object: nil)
+        notificationCenter.addObserver(self, selector: "pasteReference",
+            name: "PasteReferenceNotification", object: nil)
         notificationCenter.addObserver(self, selector: "shrinkReference",
             name: "ShrinkReferenceNotification", object: nil)
         notificationCenter.addObserver(self, selector: "shuffleReference",
             name: "ShuffleReferenceNotification", object: nil)
+        notificationCenter.addObserver(self, selector: "enableAutoShuffleReference",
+            name: "EnableAutoShuffleReferenceNotification", object: nil)
+        notificationCenter.addObserver(self, selector: "disableAutoShuffleReference",
+            name: "DisableAutoShuffleReferenceNotification", object: nil)
 
-        notificationCenter.addObserver(self, selector: "keyDownInInputTextView:",
+        notificationCenter.addObserver(self, selector: "keyDownInTypeTextView:",
             name: "KeyDownInTypeTextViewNotification", object: typeTextView)
     }
 
     func startType() {
         referenceTextView.inactivate()
+        if isAutoShuffleReference == true {
+            referenceTextView.shuffleString()
+        }
         referenceTextView.markAllTextAsNormal()
         referenceTextView.scrollToBeginningOfDocument(nil)
 
@@ -135,27 +152,57 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         typeTextView.setDefaultFont()
     }
 
+    func enableAutoStartType() {
+        isAutoStartType = true
+    }
+
+    func disableAutoStartType() {
+        isAutoStartType = false
+    }
+
+    func enableAutoShuffleReference() {
+        isAutoShuffleReference = true
+    }
+
+    func disableAutoShuffleReference() {
+        isAutoShuffleReference = false
+    }
+
     func toggleEditReference(notification: NSNotification) {
         switch referenceTextView.editable {
-        case true:
+        case true:  // to disable editing
             typeMonitor.reset()
             typeTextView.inactivate()
             typeTextView.setupInitLookup()
             typeTextView.setDefaultFont()
             referenceTextView.inactivate()
+            referenceTextView.setSelectedRange(NSMakeRange(0, 0))
             referenceTextView.markAllTextAsNormal()
             resetTypeInformationAccordingToReference()
-        case false:
+        case false:  // to enable editing
             typeMonitor.reset()
             typeTextView.inactivate()
             let keyEquivalent = "Shift + Command + I"
             typeTextView.textStorage?.mutableString.setString("结束编辑请按：" + keyEquivalent)
             typeTextView.setDefaultFont()
             referenceTextView.activate()
-            referenceTextView.setDefaultFont()
+            referenceTextView.selectAll(nil)
         default:
             break
         }
+    }
+
+    func pasteReference() {
+        typeMonitor.reset()
+        typeTextView.inactivate()
+        typeTextView.setupInitLookup()
+        typeTextView.setDefaultFont()
+        referenceTextView.inactivate()
+        if let string = NSPasteboard.generalPasteboard().stringForType(NSPasteboardTypeString) {
+            referenceTextView.textStorage!.mutableString.setString(string)
+        }
+        referenceTextView.markAllTextAsNormal()
+        resetTypeInformationAccordingToReference()
     }
 
     func shrinkReference() {
@@ -180,9 +227,25 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         resetTypeInformationAccordingToReference()
     }
 
-    func keyDownInInputTextView(notification: NSNotification) {
+    func keyDownInTypeTextView(notification: NSNotification) {
+        var isNeedRespondToKeyDown = false
         switch typeMonitor.getState() {
+        case .Off, .End:
+            if isAutoStartType == true {
+                isNeedRespondToKeyDown = true
+                startType()
+            }
         case .On:
+            isNeedRespondToKeyDown = true
+        case .Paused:
+            if isAutoStartType == true {
+                isNeedRespondToKeyDown = true
+                togglePauseType()
+            }
+            isNeedRespondToKeyDown = true
+        }
+
+        if isNeedRespondToKeyDown ==  true {
             ++numBufferKeyDown
             typeMonitor.incrementNumKeyDown()
 
@@ -199,8 +262,6 @@ class ViewController: NSViewController, TypeTextViewDelegate {
                 --numBufferKeyDown
                 numBufferKeyDown = 0
             }
-        default:
-            break
         }
     }
 

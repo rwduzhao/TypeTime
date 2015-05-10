@@ -603,6 +603,13 @@ DQ
                                                 <action selector="typeSubmit:" target="Voe-Tx-rLC" id="cxF-b3-xPm"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="iIg-n0-omG"/>
+                                        <menuItem title="Auto Start" id="KE2-S2-x5K">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="typeToggleAutoStart:" target="Voe-Tx-rLC" id="D0G-JD-wpa"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -616,6 +623,11 @@ DQ
                                                 <action selector="referenceEdit:" target="Voe-Tx-rLC" id="ynn-v1-OdM"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Paste" keyEquivalent="V" id="7KG-Pt-Lg9">
+                                            <connections>
+                                                <action selector="refencePaste:" target="Voe-Tx-rLC" id="JX0-sQ-QFD"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Shuffle" keyEquivalent="R" id="cyz-Kx-HmC">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
@@ -626,6 +638,13 @@ DQ
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="referenceShrink:" target="Voe-Tx-rLC" id="GnO-aU-W8c"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="eaI-L3-fhE"/>
+                                        <menuItem title="Auto Shuffle" id="0yW-oK-ruU">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="referenceToggleAutoShuffle:" target="Voe-Tx-rLC" id="Dla-9a-hNF"/>
                                             </connections>
                                         </menuItem>
                                     </items>

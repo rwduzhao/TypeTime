@@ -91,7 +91,11 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     func localKeyDown(theEvent: NSEvent!) -> NSEvent! {
         switch typeMonitor.getState() {
         case .Off, .End:
-            startType()
+            if isAutoShuffleReference == false {
+                startType()
+            } else if theEvent.keyCode == 51 {
+                startType()
+            }
         case .On:
             break
         case .Paused:

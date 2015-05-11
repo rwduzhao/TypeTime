@@ -643,7 +643,7 @@ DQ
                                         <menuItem title="Auto Shuffle" id="0yW-oK-ruU">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="referenceToggleAutoShuffle:" target="Voe-Tx-rLC" id="Dla-9a-hNF"/>
+                                                <action selector="referenceToggleAutoShuffle:" target="Voe-Tx-rLC" id="im3-Bd-0MT"/>
                                             </connections>
                                         </menuItem>
                                     </items>

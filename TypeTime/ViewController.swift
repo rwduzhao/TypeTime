@@ -23,8 +23,20 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     var bufferTimeOffset: NSTimeInterval = 0.0
     var lastTypeTextLength = 0
 
-    var isAutoStartType = false
-    var isAutoShuffleReference = false
+    var autoStartTypeState: Int? {
+        get {
+            let menuItem = NSApplication.sharedApplication().mainMenu?.itemWithTitle("Type")
+            let subMenuItem = menuItem?.submenu?.itemWithTitle("Auto Start")
+            return subMenuItem?.state
+        }
+    }
+    var autoShuffleReferenceState: Int? {
+        get {
+            let menuItem = NSApplication.sharedApplication().mainMenu?.itemWithTitle("Reference")
+            let subMenuItem = menuItem?.submenu?.itemWithTitle("Auto Shuffle")
+            return subMenuItem?.state
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +50,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
 
         resetTypeInformationAccordingToReference()
 
-        if isAutoStartType {
+        if autoStartTypeState == NSOnState {
             enableLocalMonitorForKeyDownEvent()
         }
     }
@@ -57,9 +69,9 @@ class ViewController: NSViewController, TypeTextViewDelegate {
             name: "TogglePauseTypeNotification", object: nil)
         notificationCenter.addObserver(self, selector: "submitType",
             name: "SubmitTypeNotification", object: nil)
-        notificationCenter.addObserver(self, selector: "enableAutoStartType",
+        notificationCenter.addObserver(self, selector: "enableLocalMonitorForKeyDownEvent",
             name: "EnableAutoStartTypeNotification", object: nil)
-        notificationCenter.addObserver(self, selector: "disableAutoStartType",
+        notificationCenter.addObserver(self, selector: "disableLocalMonitorForKeyDownEvent",
             name: "DisableAutoStartTypeNotification", object: nil)
 
         notificationCenter.addObserver(self, selector: "toggleEditReference:",
@@ -70,10 +82,6 @@ class ViewController: NSViewController, TypeTextViewDelegate {
             name: "ShrinkReferenceNotification", object: nil)
         notificationCenter.addObserver(self, selector: "shuffleReference",
             name: "ShuffleReferenceNotification", object: nil)
-        notificationCenter.addObserver(self, selector: "enableAutoShuffleReference",
-            name: "EnableAutoShuffleReferenceNotification", object: nil)
-        notificationCenter.addObserver(self, selector: "disableAutoShuffleReference",
-            name: "DisableAutoShuffleReferenceNotification", object: nil)
 
         notificationCenter.addObserver(self, selector: "keyDownInTypeTextView:",
             name: "KeyDownInTypeTextViewNotification", object: typeTextView)
@@ -91,7 +99,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     func localKeyDown(theEvent: NSEvent!) -> NSEvent! {
         switch typeMonitor.getState() {
         case .Off, .End:
-            if isAutoShuffleReference == false {
+            if autoShuffleReferenceState == NSOffState {
                 startType()
             } else if theEvent.keyCode == 51 {
                 startType()
@@ -106,7 +114,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
 
     func startType() {
         referenceTextView.inactivate()
-        if isAutoShuffleReference == true {
+        if autoShuffleReferenceState == NSOnState {
             referenceTextView.shuffleString()
         }
         referenceTextView.markAllTextAsNormal()
@@ -180,24 +188,6 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         typeMonitor.resetAccordingToReference(referenceTextView.textStorage!.length)
         typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
         typeTextView.setDefaultFont()
-    }
-
-    func enableAutoStartType() {
-        isAutoStartType = true
-        enableLocalMonitorForKeyDownEvent()
-    }
-
-    func disableAutoStartType() {
-        isAutoStartType = false
-        disableLocalMonitorForKeyDownEvent()
-    }
-
-    func enableAutoShuffleReference() {
-        isAutoShuffleReference = true
-    }
-
-    func disableAutoShuffleReference() {
-        isAutoShuffleReference = false
     }
 
     func toggleEditReference(notification: NSNotification) {

@@ -53,8 +53,9 @@ class TypeTextView: NSTextView, TypeTextViewDelegate {
     override func keyDown(theEvent: NSEvent) {
         if editable == true {
             let notificationCenter = NSNotificationCenter.defaultCenter()
+            let notification = "KeyDownInTypeTextViewNotification"
             let userInfo = ["event": theEvent]
-            notificationCenter.postNotificationName("KeyDownInTypeTextViewNotification", object: self, userInfo: userInfo)
+            notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
             switch theEvent.keyCode {
             case 0x7B, 0x7C, 0x7D, 0x7E:  // arrow keys
                 break

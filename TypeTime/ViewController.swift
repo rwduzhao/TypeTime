@@ -13,6 +13,8 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     @IBOutlet var referenceTextView: ReferenceTextView!
     @IBOutlet var typeTextView: TypeTextView!
 
+    var localKeyDownEvent: AnyObject?
+
     var typeMonitor = TypeMonitor()
     var snapshotTypeString: String?
     var bufferKeyCode: UInt16?
@@ -24,11 +26,10 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     var isAutoStartType = false
     var isAutoShuffleReference = false
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addObserver()
+        addObservers()
 
         typeTextView.delegate = self
 
@@ -36,6 +37,10 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         typeTextView.setupInitLookup()
 
         resetTypeInformationAccordingToReference()
+
+        if isAutoStartType {
+            enableLocalMonitorForKeyDownEvent()
+        }
     }
 
     deinit {
@@ -43,7 +48,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         notificationCenter.removeObserver(self)
     }
 
-    func addObserver() {
+    func addObservers() {
         let notificationCenter = NSNotificationCenter.defaultCenter()
 
         notificationCenter.addObserver(self, selector: "startType",
@@ -72,6 +77,27 @@ class ViewController: NSViewController, TypeTextViewDelegate {
 
         notificationCenter.addObserver(self, selector: "keyDownInTypeTextView:",
             name: "KeyDownInTypeTextViewNotification", object: typeTextView)
+    }
+
+    func enableLocalMonitorForKeyDownEvent() {
+        localKeyDownEvent = NSEvent.addLocalMonitorForEventsMatchingMask(NSEventMask.KeyDownMask, handler: localKeyDown)
+    }
+
+    func disableLocalMonitorForKeyDownEvent() {
+        NSEvent.removeMonitor(localKeyDownEvent!)
+        localKeyDownEvent = nil
+    }
+
+    func localKeyDown(theEvent: NSEvent!) -> NSEvent! {
+        switch typeMonitor.getState() {
+        case .Off, .End:
+            startType()
+        case .On:
+            break
+        case .Paused:
+            togglePauseType()
+        }
+        return theEvent!
     }
 
     func startType() {
@@ -154,10 +180,12 @@ class ViewController: NSViewController, TypeTextViewDelegate {
 
     func enableAutoStartType() {
         isAutoStartType = true
+        enableLocalMonitorForKeyDownEvent()
     }
 
     func disableAutoStartType() {
         isAutoStartType = false
+        disableLocalMonitorForKeyDownEvent()
     }
 
     func enableAutoShuffleReference() {
@@ -228,40 +256,21 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     }
 
     func keyDownInTypeTextView(notification: NSNotification) {
-        var isNeedRespondToKeyDown = false
-        switch typeMonitor.getState() {
-        case .Off, .End:
-            if isAutoStartType == true {
-                isNeedRespondToKeyDown = true
-                startType()
-            }
-        case .On:
-            isNeedRespondToKeyDown = true
-        case .Paused:
-            if isAutoStartType == true {
-                isNeedRespondToKeyDown = true
-                togglePauseType()
-            }
-            isNeedRespondToKeyDown = true
-        }
+        ++numBufferKeyDown
+        typeMonitor.incrementNumKeyDown()
 
-        if isNeedRespondToKeyDown ==  true {
-            ++numBufferKeyDown
-            typeMonitor.incrementNumKeyDown()
+        let userInfo = notification.userInfo as! [String: AnyObject]
+        let event = userInfo["event"] as! NSEvent
+        bufferKeyCode = event.keyCode
 
-            let userInfo = notification.userInfo as! [String: AnyObject]
-            let event = userInfo["event"] as! NSEvent
-            bufferKeyCode = event.keyCode
-
-            // delete action in blank typeTextView
-            if typeTextView.textStorage!.length == 0 && bufferKeyCode == 51 {
-                typeMonitor.backwardCursorLocation(1)
-                let cursorLocation = typeMonitor.getCursorLocation()
-                typeMonitor.clearTypoIndiceAt(cursorLocation)
-                referenceTextView.clearTextMarkAtIndex(cursorLocation)
-                --numBufferKeyDown
-                numBufferKeyDown = 0
-            }
+        // delete action in blank typeTextView
+        if typeTextView.textStorage!.length == 0 && bufferKeyCode == 51 {
+            typeMonitor.backwardCursorLocation(1)
+            let cursorLocation = typeMonitor.getCursorLocation()
+            typeMonitor.clearTypoIndiceAt(cursorLocation)
+            referenceTextView.clearTextMarkAtIndex(cursorLocation)
+            --numBufferKeyDown
+            numBufferKeyDown = 0
         }
     }
 

@@ -216,7 +216,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
     }
 
-    @IBAction func refencePaste(sender: NSMenuItem) {
+    @IBAction func referencePaste(sender: NSMenuItem) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
         let notification = "PasteReferenceNotification"
         let userInfo = ["sender": sender]

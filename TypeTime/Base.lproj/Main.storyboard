@@ -612,9 +612,9 @@ DQ
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Reference" id="QVO-wO-NsX">
+                            <menuItem title="Text" id="QVO-wO-NsX">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Reference" id="2d3-Qg-X07">
+                                <menu key="submenu" title="Text" id="2d3-Qg-X07">
                                     <items>
                                         <menuItem title="Edit" keyEquivalent="I" id="0yL-x6-ssm">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
@@ -624,7 +624,7 @@ DQ
                                         </menuItem>
                                         <menuItem title="Paste" keyEquivalent="V" id="7KG-Pt-Lg9">
                                             <connections>
-                                                <action selector="refencePaste:" target="Voe-Tx-rLC" id="JX0-sQ-QFD"/>
+                                                <action selector="referencePaste:" target="Voe-Tx-rLC" id="0jE-ZN-gCL"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Shuffle" keyEquivalent="R" id="cyz-Kx-HmC">

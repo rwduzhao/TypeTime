@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A07501E1AFCAD76002EE3BF /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */; };
+		3A09BFDA1B8DE44A00D3E83C /* Welcome.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3A09BFD91B8DE44A00D3E83C /* Welcome.txt */; };
 		3A3AB7191AF9432C008BB4BB /* TypeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */; };
 		3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */; };
 		3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */; };
@@ -17,6 +18,7 @@
 		3AC11CE71AF3A79100C94550 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AC11CE51AF3A79100C94550 /* Main.storyboard */; };
 		3AC11CF31AF3A79100C94550 /* TypeTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CF21AF3A79100C94550 /* TypeTimeTests.swift */; };
 		3AC11CFF1AF3B50F00C94550 /* TypeMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */; };
+		3ACDFD231B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3ACDFD221B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		3A09BFD91B8DE44A00D3E83C /* Welcome.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Welcome.txt; path = Resource/Text/Welcome.txt; sourceTree = "<group>"; };
 		3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeTextView.swift; sourceTree = "<group>"; };
 		3A8298521AFBE69700B22A84 /* TypeTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TypeTime.entitlements; sourceTree = "<group>"; };
 		3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceTextView.swift; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 		3AC11CF11AF3A79100C94550 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AC11CF21AF3A79100C94550 /* TypeTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTimeTests.swift; sourceTree = "<group>"; };
 		3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeMonitor.swift; sourceTree = "<group>"; };
+		3ACDFD221B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Characters - Rank A.txt"; path = "Resource/Text/Simplified Chinese - Characters - Rank A.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A09BFD51B8DD85700D3E83C /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				3ACDFD221B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt */,
+				3A09BFD91B8DE44A00D3E83C /* Welcome.txt */,
+			);
+			name = Text;
+			path = TypeTime;
+			sourceTree = "<group>";
+		};
+		3A09BFD81B8DD91500D3E83C /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				3A09BFD51B8DD85700D3E83C /* Text */,
+			);
+			name = Resource;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		3AC11CCE1AF3A79100C94550 = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +109,7 @@
 		3AC11CD91AF3A79100C94550 /* TypeTime */ = {
 			isa = PBXGroup;
 			children = (
+				3A09BFD81B8DD91500D3E83C /* Resource */,
 				3A8298521AFBE69700B22A84 /* TypeTime.entitlements */,
 				3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */,
 				3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */,
@@ -212,6 +236,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ACDFD231B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt in Resources */,
+				3A09BFDA1B8DE44A00D3E83C /* Welcome.txt in Resources */,
 				3AC11CE41AF3A79100C94550 /* Images.xcassets in Resources */,
 				3AC11CE71AF3A79100C94550 /* Main.storyboard in Resources */,
 			);

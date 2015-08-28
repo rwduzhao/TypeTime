@@ -1,0 +1,13 @@
+欢迎使用TypeTime跟打器
+
+操作说明：
+
+开始新的跟打：Command + L
+暂停及恢复跟打：Command + P
+完成跟打并查看成绩：Command + Enter
+
+编辑文段：Shift + Command + I
+打乱文段：Shift + Command + R
+修剪文段：Shift + Command + T
+
+开发与测试环境：OS X Yosemite，Squirrel

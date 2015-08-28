@@ -26,19 +26,7 @@ class ReferenceTextView: NSTextView {
     let enHistoryTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.blueColor().colorWithAlphaComponent(0.5)]
     let deHistroyTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.textColor()]
 
-    let helpMessage = "欢迎使用TypeTime跟打器\n"
-        + "\n"
-        + "操作说明：\n"
-        + "\n"
-        + "开始新的跟打：Command + L\n"
-        + "暂停及恢复跟打：Command + P\n"
-        + "完成跟打并查看成绩：Command + Enter\n"
-        + "\n"
-        + "编辑文段：Shift + Command + I\n"
-        + "打乱文段：Shift + Command + R\n"
-        + "修剪文段：Shift + Command + T\n"
-        + "\n"
-        + "开发与测试环境：OS X Yosemite，Squirrel"
+    let helpMessagePath = NSBundle.mainBundle().pathForResource("Welcome", ofType: "txt")
 
     func shrinkString() {
         let string = textStorage!.string
@@ -71,7 +59,8 @@ class ReferenceTextView: NSTextView {
 
     func setupInitLookup() {
         inactivate()
-        textStorage?.mutableString.setString(helpMessage)
+        let helpMessage = String(contentsOfFile: helpMessagePath!, encoding: NSUTF8StringEncoding, error: nil)
+        textStorage?.mutableString.setString(helpMessage!)
         markAllTextAsNormal()
     }
 

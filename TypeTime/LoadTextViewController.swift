@@ -216,5 +216,5 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
   func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
     return "\(candidateTypeTexts[row].valueForKey(tableColumn!.identifier)!)"
   }
-
+  
 }

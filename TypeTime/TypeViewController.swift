@@ -8,7 +8,11 @@
 
 import Cocoa
 
-class TypeViewController: NSViewController, TypeTextViewDelegate {
+protocol TypeViewDelegate {
+  func loadTypeText(string: String)
+}
+
+class TypeViewController: NSViewController, TypeViewDelegate {
 
   @IBOutlet var referenceTextView: ReferenceTextView!
   @IBOutlet var typeTextView: TypeTextView!
@@ -44,8 +48,6 @@ class TypeViewController: NSViewController, TypeTextViewDelegate {
 
     addObservers()
 
-    typeTextView.delegate = self
-
     referenceTextView.setupInitLookup()
     if referenceText != nil {
       referenceTextView.textStorage?.mutableString.setString(referenceText!)
@@ -69,8 +71,20 @@ class TypeViewController: NSViewController, TypeTextViewDelegate {
     notificationCenter.removeObserver(self)
   }
 
+  func loadTypeText(string: String) {
+    typeMonitor.reset()
+    typeTextView.inactivate()
+    typeTextView.setupInitLookup()
+    typeTextView.setDefaultFont()
+    referenceTextView.inactivate()
+    referenceTextView.textStorage!.mutableString.setString(string)
+    referenceTextView.markAllTextAsNormal()
+    resetTypeInformationAccordingToReference()
+  }
+
   func presentLoadTextView() {
     let loadTextViewController = storyboard!.instantiateControllerWithIdentifier("Load Text View Controller") as! LoadTextViewController
+    loadTextViewController.delegate = self
     presentViewControllerAsSheet(loadTextViewController)
   }
 

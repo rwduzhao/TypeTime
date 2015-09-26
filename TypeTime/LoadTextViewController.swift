@@ -49,6 +49,8 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
   private var selectedSampleLength: Int?
   private var selectedSplitNumber: Int?
 
+  var delegate: TypeViewDelegate?
+
   @IBOutlet var sampleTextView: NSTextView!
   @IBOutlet weak var textLanguagePopUpButton: NSPopUpButton!
   @IBOutlet weak var textTypeSegmentedControl: NSSegmentedControl!
@@ -167,6 +169,15 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
   @IBAction func selectSplitNumber(sender: NSPopUpButton) {
     updateSplitNumber()
     updateSampleText()
+  }
+
+  @IBAction func load(sender: NSButton) {
+    if let string = sampleTextView.string {
+      if string.characters.count > 0 {
+        self.delegate?.loadTypeText(string)
+        dismissViewController(self)
+      }
+    }
   }
 
   @IBAction func cancel(sender: NSButton) {

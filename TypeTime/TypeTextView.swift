@@ -8,9 +8,7 @@
 
 import Cocoa
 
-protocol TypeTextViewDelegate: NSTextViewDelegate {}
-
-class TypeTextView: NSTextView, TypeTextViewDelegate {
+class TypeTextView: NSTextView {
 
   let defaultFont = NSFont(name: "Menlo", size: 24.0)
   let activeBackgroundColor = NSColor.textBackgroundColor()

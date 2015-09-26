@@ -747,11 +747,11 @@ DQ
                                 <toolbarItem implicitItemIdentifier="4159BBE1-A7F5-4752-B3C7-795326A3B56D" label="" paletteLabel="" id="EQc-Gj-6dF">
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="0.0" height="18"/>
-                                    <size key="maxSize" width="37" height="31"/>
+                                    <size key="maxSize" width="69" height="34"/>
                                     <button key="view" verticalHuggingPriority="750" id="OsZ-0E-o9K">
-                                        <rect key="frame" x="0.0" y="14" width="37" height="31"/>
+                                        <rect key="frame" x="0.0" y="14" width="69" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fsX-2F-aIx">
+                                        <buttonCell key="cell" type="squareTextured" title="Load" bezelStyle="texturedSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fsX-2F-aIx">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -892,6 +892,9 @@ DQ
 DQ
 </string>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="load:" target="8e2-e6-MLp" id="gWD-VE-kz2"/>
+                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Gs-xq-f12">
                                 <rect key="frame" x="394" y="123" width="93" height="17"/>

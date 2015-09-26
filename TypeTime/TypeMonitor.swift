@@ -8,7 +8,7 @@
 
 import Cocoa
 
-enum TypeState: Printable {
+enum TypeState: CustomStringConvertible {
     case Off
     case On
     case Paused

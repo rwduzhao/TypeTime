@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, TypeTextViewDelegate {
+class TypeViewController: NSViewController, TypeTextViewDelegate {
 
     @IBOutlet var referenceTextView: ReferenceTextView!
     @IBOutlet var typeTextView: TypeTextView!
@@ -22,6 +22,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
     var bufferDate: NSDate?
     var bufferTimeOffset: NSTimeInterval = 0.0
     var lastTypeTextLength = 0
+    var referenceText: String?
 
     var autoStartTypeState: Int? {
         get {
@@ -46,6 +47,9 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         typeTextView.delegate = self
 
         referenceTextView.setupInitLookup()
+        if referenceText != nil {
+            referenceTextView.textStorage?.mutableString.setString(referenceText!)
+        }
         typeTextView.setupInitLookup()
 
         resetTypeInformationAccordingToReference()
@@ -55,9 +59,19 @@ class ViewController: NSViewController, TypeTextViewDelegate {
         }
     }
 
+    override func viewDidAppear () {
+        super.viewDidAppear()
+        view.window?.titleVisibility = .Hidden
+    }
+
     deinit {
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.removeObserver(self)
+    }
+
+    func presentLoadTextView() {
+        let loadTextViewController = storyboard!.instantiateControllerWithIdentifier("Load Text View Controller") as! LoadTextViewController
+        presentViewControllerAsSheet(loadTextViewController)
     }
 
     func addObservers() {
@@ -141,7 +155,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
             bufferDate = nil
             typeMonitor.addCharTimeIntervalsAt(cursorLocation, timeInterval: bufferTimeInterval)
             typeMonitor.pause()
-            snapshotTypeString = typeTextView.textStorage?.mutableString as? String
+            snapshotTypeString = typeTextView.string
             typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
             typeTextView.setDefaultFont()
         case .Paused:
@@ -209,8 +223,6 @@ class ViewController: NSViewController, TypeTextViewDelegate {
             typeTextView.setDefaultFont()
             referenceTextView.activate()
             referenceTextView.selectAll(nil)
-        default:
-            break
         }
     }
 
@@ -314,9 +326,9 @@ class ViewController: NSViewController, TypeTextViewDelegate {
                     submitType()
                 }
             } else if numBufferCharDiff < 0 {
-                let numBufferCharDeleted = -numBufferCharDiff
+                // let numBufferCharDeleted = -numBufferCharDiff
                 if bufferKeyCode == 51 {  // delete by keyboard
-                    for location in typeString.length..<lastTypeTextLength {
+                    for _ in typeString.length..<lastTypeTextLength {
                         typeMonitor.backwardCursorLocation(1)
                         let cursorLocation = typeMonitor.getCursorLocation()
                         typeMonitor.clearTypoIndiceAt(cursorLocation)
@@ -324,7 +336,7 @@ class ViewController: NSViewController, TypeTextViewDelegate {
                     }
                 } else {  // smart replacemet
                     // FIXME may encounter potential runtime issues
-                    for location in typeString.length..<lastTypeTextLength {
+                    for _ in typeString.length..<lastTypeTextLength {
                         typeMonitor.backwardCursorLocation(1)
                         let cursorLocation = typeMonitor.getCursorLocation()
                         typeMonitor.clearTypoIndiceAt(cursorLocation)

@@ -11,7 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var mainWindowController: MainWindowController?
+    var mainWindowController: NSWindowController?
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
@@ -23,8 +23,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldHandleReopen(sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if flag == false {
-            let storyboard = NSStoryboard(name: "Main", bundle: nil)!
-            mainWindowController = storyboard.instantiateControllerWithIdentifier("Main Window Controller") as? MainWindowController
+            let storyboard = NSStoryboard(name: "Main", bundle: nil)
+            mainWindowController = storyboard.instantiateControllerWithIdentifier("Type Window Controller") as? TypeWindowController
             mainWindowController?.showWindow(self)
         }
         return true
@@ -39,7 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "me.rwduzhao.TypeTime" in the user's Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
-        let appSupportURL = urls[urls.count - 1] as! NSURL
+        let appSupportURL = urls[urls.count - 1] 
         return appSupportURL.URLByAppendingPathComponent("me.rwduzhao.TypeTime")
     }()
 
@@ -57,7 +57,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var failureReason = "There was an error creating or loading the application's saved data."
 
         // Make sure the application files directory is there
-        let propertiesOpt = self.applicationDocumentsDirectory.resourceValuesForKeys([NSURLIsDirectoryKey], error: &error)
+        let propertiesOpt: [NSObject: AnyObject]?
+        do {
+            propertiesOpt = try self.applicationDocumentsDirectory.resourceValuesForKeys([NSURLIsDirectoryKey])
+        } catch var error1 as NSError {
+            error = error1
+            propertiesOpt = nil
+        } catch {
+            fatalError()
+        }
         if let properties = propertiesOpt {
             if !properties[NSURLIsDirectoryKey]!.boolValue {
                 failureReason = "Expected a folder to store application data, found a file \(self.applicationDocumentsDirectory.path)."
@@ -65,7 +73,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } else if error!.code == NSFileReadNoSuchFileError {
             error = nil
-            fileManager.createDirectoryAtPath(self.applicationDocumentsDirectory.path!, withIntermediateDirectories: true, attributes: nil, error: &error)
+            do {
+                try fileManager.createDirectoryAtPath(self.applicationDocumentsDirectory.path!, withIntermediateDirectories: true, attributes: nil)
+            } catch var error1 as NSError {
+                error = error1
+            } catch {
+                fatalError()
+            }
         }
         
         // Create the coordinator and store
@@ -73,11 +87,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if !shouldFail && (error == nil) {
             coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
             let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("TypeTime.storedata")
-            if coordinator!.addPersistentStoreWithType(NSXMLStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+            // NSFileManager.defaultManager().removeItemAtURL(url, error: nil)  //TOFIX delete at launch at develop mode
+            do {
+                try coordinator!.addPersistentStoreWithType(NSXMLStoreType, configuration: nil, URL: url, options: nil)
+            } catch var error1 as NSError {
+                error = error1
                 coordinator = nil
+            } catch {
+                fatalError()
             }
         }
-        
+
         if shouldFail || (error != nil) {
             // Report any error we got.
             var dict = [String: AnyObject]()
@@ -114,8 +134,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 NSLog("\(NSStringFromClass(self.dynamicType)) unable to commit editing before saving")
             }
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                NSApplication.sharedApplication().presentError(error!)
+            if moc.hasChanges {
+                do {
+                    try moc.save()
+                } catch let error1 as NSError {
+                    error = error1
+                    NSApplication.sharedApplication().presentError(error!)
+                }
             }
         }
     }
@@ -143,7 +168,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             
             var error: NSError? = nil
-            if !moc.save(&error) {
+            do {
+                try moc.save()
+            } catch let error1 as NSError {
+                error = error1
                 // Customize this code block to include application-specific recovery steps.
                 let result = sender.presentError(error!)
                 if (result) {
@@ -169,6 +197,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // If we got here, it is time to quit.
         return .TerminateNow
     }
+
+    // MARK: - Notification post
 
     @IBAction func typeReady(sender: NSMenuItem) {
         let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -206,6 +236,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             notificationCenter.postNotificationName(notification, object: self, userInfo: userInfo)
         default:
             break
+        }
+    }
+
+    @IBAction func loadTypeText(sender: NSMenuItem) {
+        let sharedApplication = NSApplication.sharedApplication()
+        let keyWindow = sharedApplication.keyWindow
+        if let viewController = keyWindow?.contentViewController as? TypeViewController {
+            viewController.presentLoadTextView()
         }
     }
 

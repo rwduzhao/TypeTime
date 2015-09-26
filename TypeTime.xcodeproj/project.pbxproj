@@ -7,18 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A07501E1AFCAD76002EE3BF /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */; };
-		3A09BFDA1B8DE44A00D3E83C /* Welcome.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3A09BFD91B8DE44A00D3E83C /* Welcome.txt */; };
+		3A39BE711B9DD25000C52504 /* TypeWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A39BE701B9DD25000C52504 /* TypeWindowController.swift */; };
 		3A3AB7191AF9432C008BB4BB /* TypeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */; };
+		3A4059F81BB6B14B005055DC /* Simplified Chinese - Article - 冰灯.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3A4059F51BB6B14B005055DC /* Simplified Chinese - Article - 冰灯.txt */; settings = {ASSET_TAGS = (); }; };
+		3A4059F91BB6B14B005055DC /* Simplified Chinese - Article - 心的出口（冷雨葬花）.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3A4059F61BB6B14B005055DC /* Simplified Chinese - Article - 心的出口（冷雨葬花）.txt */; settings = {ASSET_TAGS = (); }; };
+		3A4059FA1BB6B14B005055DC /* Simplified Chinese - Article - 芙蓉女儿诔（曹雪芹）.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3A4059F71BB6B14B005055DC /* Simplified Chinese - Article - 芙蓉女儿诔（曹雪芹）.txt */; settings = {ASSET_TAGS = (); }; };
+		3A496C0E1B9DBB500055376F /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A496C0D1B9DBB500055376F /* Utility.swift */; };
+		3A496C111B9DBC0F0055376F /* Simplified Chinese - Article - Welcome.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3A496C0F1B9DBC0F0055376F /* Simplified Chinese - Article - Welcome.txt */; };
+		3A496C121B9DBC0F0055376F /* Simplified Chinese - Character - 常用字前500.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3A496C101B9DBC0F0055376F /* Simplified Chinese - Character - 常用字前500.txt */; };
+		3A65162E1B9896BF007DF326 /* LoadTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A65162D1B9896BF007DF326 /* LoadTextViewController.swift */; };
+		3A6516351B99AD57007DF326 /* TypeTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A6516331B99AD57007DF326 /* TypeTime.xcdatamodeld */; };
+		3A6516391B99AF8A007DF326 /* TypeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6516381B99AF8A007DF326 /* TypeText.swift */; };
 		3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */; };
 		3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */; };
-		3AC11CDF1AF3A79100C94550 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDE1AF3A79100C94550 /* ViewController.swift */; };
-		3AC11CE21AF3A79100C94550 /* TypeTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CE01AF3A79100C94550 /* TypeTime.xcdatamodeld */; };
+		3AC11CDF1AF3A79100C94550 /* TypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDE1AF3A79100C94550 /* TypeViewController.swift */; };
 		3AC11CE41AF3A79100C94550 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AC11CE31AF3A79100C94550 /* Images.xcassets */; };
 		3AC11CE71AF3A79100C94550 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AC11CE51AF3A79100C94550 /* Main.storyboard */; };
 		3AC11CF31AF3A79100C94550 /* TypeTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CF21AF3A79100C94550 /* TypeTimeTests.swift */; };
 		3AC11CFF1AF3B50F00C94550 /* TypeMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */; };
-		3ACDFD231B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3ACDFD221B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,23 +38,29 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
-		3A09BFD91B8DE44A00D3E83C /* Welcome.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Welcome.txt; path = Resource/Text/Welcome.txt; sourceTree = "<group>"; };
+		3A39BE701B9DD25000C52504 /* TypeWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeWindowController.swift; sourceTree = "<group>"; };
 		3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeTextView.swift; sourceTree = "<group>"; };
+		3A4059F51BB6B14B005055DC /* Simplified Chinese - Article - 冰灯.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Article - 冰灯.txt"; path = "Resources/Text/Simplified Chinese - Article - 冰灯.txt"; sourceTree = "<group>"; };
+		3A4059F61BB6B14B005055DC /* Simplified Chinese - Article - 心的出口（冷雨葬花）.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Article - 心的出口（冷雨葬花）.txt"; path = "Resources/Text/Simplified Chinese - Article - 心的出口（冷雨葬花）.txt"; sourceTree = "<group>"; };
+		3A4059F71BB6B14B005055DC /* Simplified Chinese - Article - 芙蓉女儿诔（曹雪芹）.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Article - 芙蓉女儿诔（曹雪芹）.txt"; path = "Resources/Text/Simplified Chinese - Article - 芙蓉女儿诔（曹雪芹）.txt"; sourceTree = "<group>"; };
+		3A496C0D1B9DBB500055376F /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		3A496C0F1B9DBC0F0055376F /* Simplified Chinese - Article - Welcome.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Article - Welcome.txt"; path = "Resources/Text/Simplified Chinese - Article - Welcome.txt"; sourceTree = "<group>"; };
+		3A496C101B9DBC0F0055376F /* Simplified Chinese - Character - 常用字前500.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Character - 常用字前500.txt"; path = "Resources/Text/Simplified Chinese - Character - 常用字前500.txt"; sourceTree = "<group>"; };
+		3A65162D1B9896BF007DF326 /* LoadTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = LoadTextViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
+		3A6516341B99AD57007DF326 /* TypeTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TypeTime.xcdatamodel; sourceTree = "<group>"; };
+		3A6516381B99AF8A007DF326 /* TypeText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeText.swift; sourceTree = "<group>"; };
 		3A8298521AFBE69700B22A84 /* TypeTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TypeTime.entitlements; sourceTree = "<group>"; };
 		3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceTextView.swift; sourceTree = "<group>"; };
 		3AC11CD71AF3A79100C94550 /* TypeTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TypeTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AC11CDB1AF3A79100C94550 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3AC11CDE1AF3A79100C94550 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3AC11CE11AF3A79100C94550 /* TypeTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TypeTime.xcdatamodel; sourceTree = "<group>"; };
+		3AC11CDE1AF3A79100C94550 /* TypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeViewController.swift; sourceTree = "<group>"; };
 		3AC11CE31AF3A79100C94550 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3AC11CE61AF3A79100C94550 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3AC11CEC1AF3A79100C94550 /* TypeTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TypeTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AC11CF11AF3A79100C94550 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AC11CF21AF3A79100C94550 /* TypeTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTimeTests.swift; sourceTree = "<group>"; };
 		3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeMonitor.swift; sourceTree = "<group>"; };
-		3ACDFD221B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Characters - Rank A.txt"; path = "Resource/Text/Simplified Chinese - Characters - Rank A.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,20 +84,51 @@
 		3A09BFD51B8DD85700D3E83C /* Text */ = {
 			isa = PBXGroup;
 			children = (
-				3ACDFD221B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt */,
-				3A09BFD91B8DE44A00D3E83C /* Welcome.txt */,
+				3A4059F51BB6B14B005055DC /* Simplified Chinese - Article - 冰灯.txt */,
+				3A4059F61BB6B14B005055DC /* Simplified Chinese - Article - 心的出口（冷雨葬花）.txt */,
+				3A4059F71BB6B14B005055DC /* Simplified Chinese - Article - 芙蓉女儿诔（曹雪芹）.txt */,
+				3A496C0F1B9DBC0F0055376F /* Simplified Chinese - Article - Welcome.txt */,
+				3A496C101B9DBC0F0055376F /* Simplified Chinese - Character - 常用字前500.txt */,
 			);
 			name = Text;
 			path = TypeTime;
 			sourceTree = "<group>";
 		};
-		3A09BFD81B8DD91500D3E83C /* Resource */ = {
+		3A09BFD81B8DD91500D3E83C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				3A09BFD51B8DD85700D3E83C /* Text */,
 			);
-			name = Resource;
+			name = Resources;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		3A6516311B99AB75007DF326 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3A39BE701B9DD25000C52504 /* TypeWindowController.swift */,
+				3AC11CDE1AF3A79100C94550 /* TypeViewController.swift */,
+				3A65162D1B9896BF007DF326 /* LoadTextViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3A6516321B99ABBE007DF326 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */,
+				3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3A995C4A1B975CBE0007E64A /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				3A6516331B99AD57007DF326 /* TypeTime.xcdatamodeld */,
+				3A6516381B99AF8A007DF326 /* TypeText.swift */,
+			);
+			name = CoreData;
 			sourceTree = "<group>";
 		};
 		3AC11CCE1AF3A79100C94550 = {
@@ -109,17 +152,16 @@
 		3AC11CD91AF3A79100C94550 /* TypeTime */ = {
 			isa = PBXGroup;
 			children = (
-				3A09BFD81B8DD91500D3E83C /* Resource */,
-				3A8298521AFBE69700B22A84 /* TypeTime.entitlements */,
+				3A995C4A1B975CBE0007E64A /* CoreData */,
+				3A6516311B99AB75007DF326 /* Controllers */,
+				3A6516321B99ABBE007DF326 /* Views */,
 				3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */,
-				3A07501C1AFCAD76002EE3BF /* MainWindowController.swift */,
-				3AC11CDE1AF3A79100C94550 /* ViewController.swift */,
-				3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */,
-				3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */,
 				3AC11CFE1AF3B50F00C94550 /* TypeMonitor.swift */,
+				3A496C0D1B9DBB500055376F /* Utility.swift */,
 				3AC11CE31AF3A79100C94550 /* Images.xcassets */,
 				3AC11CE51AF3A79100C94550 /* Main.storyboard */,
-				3AC11CE01AF3A79100C94550 /* TypeTime.xcdatamodeld */,
+				3A8298521AFBE69700B22A84 /* TypeTime.entitlements */,
+				3A09BFD81B8DD91500D3E83C /* Resources */,
 				3AC11CDA1AF3A79100C94550 /* Supporting Files */,
 			);
 			path = TypeTime;
@@ -195,7 +237,9 @@
 		3AC11CCF1AF3A79100C94550 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Rui-Wei Zhao";
 				TargetAttributes = {
 					3AC11CD61AF3A79100C94550 = {
@@ -236,10 +280,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ACDFD231B8DF55B008A38D5 /* Simplified Chinese - Characters - Rank A.txt in Resources */,
-				3A09BFDA1B8DE44A00D3E83C /* Welcome.txt in Resources */,
 				3AC11CE41AF3A79100C94550 /* Images.xcassets in Resources */,
 				3AC11CE71AF3A79100C94550 /* Main.storyboard in Resources */,
+				3A4059FA1BB6B14B005055DC /* Simplified Chinese - Article - 芙蓉女儿诔（曹雪芹）.txt in Resources */,
+				3A496C111B9DBC0F0055376F /* Simplified Chinese - Article - Welcome.txt in Resources */,
+				3A496C121B9DBC0F0055376F /* Simplified Chinese - Character - 常用字前500.txt in Resources */,
+				3A4059F81BB6B14B005055DC /* Simplified Chinese - Article - 冰灯.txt in Resources */,
+				3A4059F91BB6B14B005055DC /* Simplified Chinese - Article - 心的出口（冷雨葬花）.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,13 +320,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AC11CDF1AF3A79100C94550 /* ViewController.swift in Sources */,
-				3AC11CE21AF3A79100C94550 /* TypeTime.xcdatamodeld in Sources */,
+				3A6516391B99AF8A007DF326 /* TypeText.swift in Sources */,
+				3AC11CDF1AF3A79100C94550 /* TypeViewController.swift in Sources */,
+				3A496C0E1B9DBB500055376F /* Utility.swift in Sources */,
 				3AC11CFF1AF3B50F00C94550 /* TypeMonitor.swift in Sources */,
 				3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */,
+				3A39BE711B9DD25000C52504 /* TypeWindowController.swift in Sources */,
 				3A3AB7191AF9432C008BB4BB /* TypeTextView.swift in Sources */,
 				3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */,
-				3A07501E1AFCAD76002EE3BF /* MainWindowController.swift in Sources */,
+				3A6516351B99AD57007DF326 /* TypeTime.xcdatamodeld in Sources */,
+				3A65162E1B9896BF007DF326 /* LoadTextViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +384,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -400,11 +451,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TypeTime/TypeTime.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TypeTime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.rwduzhao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -413,11 +468,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TypeTime/TypeTime.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TypeTime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.rwduzhao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -437,6 +496,7 @@
 				);
 				INFOPLIST_FILE = TypeTimeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.rwduzhao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TypeTime.app/Contents/MacOS/TypeTime";
 			};
@@ -453,6 +513,7 @@
 				);
 				INFOPLIST_FILE = TypeTimeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.rwduzhao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TypeTime.app/Contents/MacOS/TypeTime";
 			};
@@ -491,12 +552,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		3AC11CE01AF3A79100C94550 /* TypeTime.xcdatamodeld */ = {
+		3A6516331B99AD57007DF326 /* TypeTime.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				3AC11CE11AF3A79100C94550 /* TypeTime.xcdatamodel */,
+				3A6516341B99AD57007DF326 /* TypeTime.xcdatamodel */,
 			);
-			currentVersion = 3AC11CE11AF3A79100C94550 /* TypeTime.xcdatamodel */;
+			currentVersion = 3A6516341B99AD57007DF326 /* TypeTime.xcdatamodel */;
 			path = TypeTime.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

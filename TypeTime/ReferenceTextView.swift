@@ -26,18 +26,18 @@ class ReferenceTextView: NSTextView {
     let enHistoryTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.blueColor().colorWithAlphaComponent(0.5)]
     let deHistroyTypoStringAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: NSColor.textColor()]
 
-    let helpMessagePath = NSBundle.mainBundle().pathForResource("Welcome", ofType: "txt")
+    let helpMessagePath = NSBundle.mainBundle().pathForResource("Simplified Chinese - Article - Welcome", ofType: "txt")
 
     func shrinkString() {
         let string = textStorage!.string
-        let components = string.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).filter({!isEmpty($0)})
-        let shrinkedString = join("", components)
+        let components = string.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).filter({!$0.characters.isEmpty})
+        let shrinkedString = components.joinWithSeparator("")
         textStorage!.mutableString.setString(shrinkedString)
     }
 
     func shuffleString() {
         func shuffle<C: MutableCollectionType where C.Index == Int>(var list: C) -> C {
-            let c = count(list)
+            let c = list.count
             for i in 0..<(c - 1) {
                 let j = Int(arc4random_uniform(UInt32(c - i))) + i
                 swap(&list[i], &list[j])
@@ -59,7 +59,7 @@ class ReferenceTextView: NSTextView {
 
     func setupInitLookup() {
         inactivate()
-        let helpMessage = String(contentsOfFile: helpMessagePath!, encoding: NSUTF8StringEncoding, error: nil)
+        let helpMessage = try? String(contentsOfFile: helpMessagePath!, encoding: NSUTF8StringEncoding)
         textStorage?.mutableString.setString(helpMessage!)
         markAllTextAsNormal()
     }
@@ -104,7 +104,7 @@ class ReferenceTextView: NSTextView {
     }
 
     func markTextAsHistoryTypoAtIndices(indices: Set<Int>) {
-        var attributedString = textStorage!.mutableCopy() as! NSMutableAttributedString
+        let attributedString = textStorage!.mutableCopy() as! NSMutableAttributedString
         for index in indices {
             if index < attributedString.length {
                 attributedString.addAttributes(enHistoryTypoStringAttributes, range: NSMakeRange(index, 1))
@@ -116,7 +116,7 @@ class ReferenceTextView: NSTextView {
     func markTextTimeInteval(timeIntervals: [NSTimeInterval]) {
         if timeIntervals.count > 0 {
             let maxTimeInterval = timeIntervals.reduce(timeIntervals[0], combine: { max($0, $1) })
-            var attributedString = textStorage!.mutableCopy() as! NSMutableAttributedString
+            let attributedString = textStorage!.mutableCopy() as! NSMutableAttributedString
             for index in 0..<timeIntervals.count {
                 let alphaValue = (1.0 - CGFloat(timeIntervals[index] / maxTimeInterval))
                 let color = NSColor.grayColor().colorWithAlphaComponent(alphaValue)

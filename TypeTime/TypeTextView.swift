@@ -44,12 +44,6 @@ class TypeTextView: NSTextView, TypeTextViewDelegate {
         font = defaultFont
     }
 
-    override var readablePasteboardTypes: [AnyObject] {
-        get {
-            return [AnyObject]()
-        }
-    }
-
     override func keyDown(theEvent: NSEvent) {
         if editable == true {
             let notificationCenter = NSNotificationCenter.defaultCenter()

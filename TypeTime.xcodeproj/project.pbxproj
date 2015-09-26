@@ -46,7 +46,7 @@
 		3A496C0D1B9DBB500055376F /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		3A496C0F1B9DBC0F0055376F /* Simplified Chinese - Article - Welcome.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Article - Welcome.txt"; path = "Resources/Text/Simplified Chinese - Article - Welcome.txt"; sourceTree = "<group>"; };
 		3A496C101B9DBC0F0055376F /* Simplified Chinese - Character - 常用字前500.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Simplified Chinese - Character - 常用字前500.txt"; path = "Resources/Text/Simplified Chinese - Character - 常用字前500.txt"; sourceTree = "<group>"; };
-		3A65162D1B9896BF007DF326 /* LoadTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = LoadTextViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
+		3A65162D1B9896BF007DF326 /* LoadTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = LoadTextViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		3A6516341B99AD57007DF326 /* TypeTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TypeTime.xcdatamodel; sourceTree = "<group>"; };
 		3A6516381B99AF8A007DF326 /* TypeText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeText.swift; sourceTree = "<group>"; };
 		3A8298521AFBE69700B22A84 /* TypeTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TypeTime.entitlements; sourceTree = "<group>"; };
@@ -138,7 +138,9 @@
 				3AC11CEF1AF3A79100C94550 /* TypeTimeTests */,
 				3AC11CD81AF3A79100C94550 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		3AC11CD81AF3A79100C94550 /* Products */ = {
 			isa = PBXGroup;

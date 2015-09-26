@@ -10,16 +10,16 @@ import Cocoa
 
 class TypeWindowController: NSWindowController {
 
-    override func windowDidLoad() {
-        super.windowDidLoad()
-    }
+  override func windowDidLoad() {
+    super.windowDidLoad()
+  }
 
-    @IBAction func loadTypeText(sender: NSToolbarItem) {
-        let sharedApplication = NSApplication.sharedApplication()
-        let keyWindow = sharedApplication.keyWindow
-        if let viewController = keyWindow?.contentViewController as? TypeViewController {
-            viewController.presentLoadTextView()
-        }
+  @IBAction func loadTypeText(sender: NSToolbarItem) {
+    let sharedApplication = NSApplication.sharedApplication()
+    let keyWindow = sharedApplication.keyWindow
+    if let viewController = keyWindow?.contentViewController as? TypeViewController {
+      viewController.presentLoadTextView()
     }
+  }
 
 }

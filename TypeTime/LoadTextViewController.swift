@@ -11,6 +11,14 @@ import CoreData
 
 class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
+    // MARK: - Variables
+
+    private var candidateTextLanguages = [String]() {
+        didSet {
+            textLanguagePopUpButton.removeAllItems()
+            textLanguagePopUpButton.addItemsWithTitles(candidateTextLanguages)
+        }
+    }
     private var selectedTextLanguage: String? {
         didSet {
             if selectedTextLanguage != nil && selectedTextType != nil {
@@ -18,6 +26,7 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
             }
         }
     }
+
     private var selectedTextType: String? {
         didSet {
             if selectedTextLanguage != nil && selectedTextType != nil {
@@ -25,16 +34,11 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
             }
         }
     }
+
     private var candidateTypeTexts = [TypeText]() {
         didSet {
             typeTextTableView.reloadData()
             updateSelectedTypeText()
-        }
-    }
-    private var candidateTextLanguages = [String]() {
-        didSet {
-            textLanguagePopUpButton.removeAllItems()
-            textLanguagePopUpButton.addItemsWithTitles(candidateTextLanguages)
         }
     }
     private var selectedTypeText: TypeText? {
@@ -46,10 +50,13 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
             updateSampleText()
         }
     }
+
     private var selectedSampleLength: Int?
     private var selectedSplitNumber: Int?
 
     var delegate: TypeViewDelegate?
+
+    // MARK: - UI variables
 
     @IBOutlet var sampleTextView: NSTextView!
     @IBOutlet weak var textLanguagePopUpButton: NSPopUpButton!
@@ -57,6 +64,72 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
     @IBOutlet weak var typeTextTableView: NSTableView!
     @IBOutlet weak var sampleLengthPopUpButton: NSPopUpButton!
     @IBOutlet weak var splitNumberPopUpBotton: NSPopUpButton!
+
+    // MARK: - Life cycles
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        typeTextTableView.delegate()
+
+        // TypeText.clearStore()
+        TypeText.updateStore()
+        updateCandidateTextLanguages()
+
+        selectedTextLanguage = textLanguagePopUpButton.titleOfSelectedItem
+        let selectedSegment = textTypeSegmentedControl.selectedSegment
+        selectedTextType = textTypeSegmentedControl.labelForSegment(selectedSegment)
+
+        updateSampleLengthOptions()
+        updateSampleLength()
+        updateSplitNumberOptions()
+        updateSplitNumber()
+        updateSampleText()
+    }
+
+    // MARK: - Candidate type texts
+
+    func updateCandidateTypeTexts() {
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let context = appDelegate.managedObjectContext!
+        let fetchRequest = NSFetchRequest(entityName: "TypeText")
+        fetchRequest.returnsObjectsAsFaults = false
+        fetchRequest.predicate = NSPredicate(format: "language = %@ AND type = %@", selectedTextLanguage!, selectedTextType!)
+        candidateTypeTexts = (try! context.executeFetchRequest(fetchRequest)) as! [TypeText]
+    }
+
+    func updateCandidateTextLanguages() {
+        let languages = TypeText.getStoredPropertyValues("language", returnsDistinctResults: true) as! [String]
+        candidateTextLanguages = Array(Set(languages.sort()))
+    }
+
+    func updateSelectedTypeText() {
+        let row = typeTextTableView.selectedRow
+        var typeText: TypeText?
+        if row >= 0 {
+            typeText = candidateTypeTexts[row]
+        }
+        if selectedTypeText != typeText {
+            selectedTypeText = typeText
+        }
+    }
+
+    @IBAction func selectTextLanguage(sender: NSPopUpButton) {
+        if selectedTextLanguage != textLanguagePopUpButton.titleOfSelectedItem {
+            selectedTextLanguage = textLanguagePopUpButton.titleOfSelectedItem
+        }
+    }
+
+    @IBAction func selectTextType(sender: NSSegmentedControl) {
+        let selectedSegment = textTypeSegmentedControl.selectedSegment
+        if let selectedSegmentLabel = textTypeSegmentedControl.labelForSegment(selectedSegment) {
+            if selectedTextType != selectedSegmentLabel {
+                selectedTextType = selectedSegmentLabel
+            }
+        }
+    }
+
+    // MARK: - Sample type text
 
     func updateSampleLengthOptions() {
         sampleLengthPopUpButton.removeAllItems()
@@ -89,50 +162,6 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
         splitNumberPopUpBotton.addItemsWithTitles(splits)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        typeTextTableView.delegate()
-
-        // TypeText.clearStore()
-        TypeText.updateStore()
-        updateCandidateTextLanguages()
-
-        selectedTextLanguage = textLanguagePopUpButton.titleOfSelectedItem
-        let selectedSegment = textTypeSegmentedControl.selectedSegment
-        selectedTextType = textTypeSegmentedControl.labelForSegment(selectedSegment)
-
-        updateSampleLengthOptions()
-        updateSampleLength()
-        updateSplitNumberOptions()
-        updateSplitNumber()
-        updateSampleText()
-    }
-
-    override func viewDidAppear () {
-        super.viewDidAppear()
-        view.window?.title = "Load Type Text"
-    }
-
-    @IBAction func actInTypeTextInTableView(sender: NSTableView) {
-        updateSelectedTypeText()
-    }
-
-    @IBAction func selectTextLanguage(sender: NSPopUpButton) {
-        if selectedTextLanguage != textLanguagePopUpButton.titleOfSelectedItem {
-            selectedTextLanguage = textLanguagePopUpButton.titleOfSelectedItem
-        }
-    }
-
-    @IBAction func selectTextType(sender: NSSegmentedControl) {
-        let selectedSegment = textTypeSegmentedControl.selectedSegment
-        if let selectedSegmentLabel = textTypeSegmentedControl.labelForSegment(selectedSegment) {
-            if selectedTextType != selectedSegmentLabel {
-                selectedTextType = selectedSegmentLabel
-            }
-        }
-    }
-
     func updateSampleLength() {
         var length: Int?
         if let lengthText = sampleLengthPopUpButton.titleOfSelectedItem {
@@ -142,6 +171,7 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
             selectedSampleLength = length
         }
     }
+
     func updateSplitNumber() {
         var splitNumber: Int?
         if let splitNumberText = splitNumberPopUpBotton.titleOfSelectedItem {
@@ -151,6 +181,7 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
             selectedSplitNumber = splitNumber
         }
     }
+
     func updateSampleText() {
         var string = ""
         if selectedTypeText?.content != nil {
@@ -171,6 +202,8 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
         updateSampleText()
     }
 
+    // MARK: - Load or cancel
+
     @IBAction func load(sender: NSButton) {
         if let string = sampleTextView.string {
             if string.characters.count > 0 {
@@ -184,31 +217,8 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
         dismissViewController(self)
     }
 
-    func updateCandidateTypeTexts() {
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let context = appDelegate.managedObjectContext!
-        let fetchRequest = NSFetchRequest(entityName: "TypeText")
-        fetchRequest.returnsObjectsAsFaults = false
-        fetchRequest.predicate = NSPredicate(format: "language = %@ AND type = %@", selectedTextLanguage!, selectedTextType!)
-        candidateTypeTexts = (try! context.executeFetchRequest(fetchRequest)) as! [TypeText]
-    }
+    // MARK: - typeText table view
 
-    func updateCandidateTextLanguages() {
-        let languages = TypeText.getStoredPropertyValues("language", returnsDistinctResults: true) as! [String]
-        candidateTextLanguages = Array(Set(languages.sort()))
-    }
-    
-    func updateSelectedTypeText() {
-        let row = typeTextTableView.selectedRow
-        var typeText: TypeText?
-        if row >= 0 {
-            typeText = candidateTypeTexts[row]
-        }
-        if selectedTypeText != typeText {
-            selectedTypeText = typeText
-        }
-    }
-    
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         return self.candidateTypeTexts.count
     }
@@ -216,5 +226,9 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         return "\(candidateTypeTexts[row].valueForKey(tableColumn!.identifier)!)"
     }
-    
+
+    @IBAction func actInTypeTextInTableView(sender: NSTableView) {
+        updateSelectedTypeText()
+    }
+
 }

@@ -18,6 +18,7 @@
 		3A65162E1B9896BF007DF326 /* LoadTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A65162D1B9896BF007DF326 /* LoadTextViewController.swift */; };
 		3A6516351B99AD57007DF326 /* TypeTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A6516331B99AD57007DF326 /* TypeTime.xcdatamodeld */; };
 		3A6516391B99AF8A007DF326 /* TypeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6516381B99AF8A007DF326 /* TypeText.swift */; };
+		3A6AAA4A1BC01F12004B042F /* TypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6AAA491BC01F12004B042F /* TypeView.swift */; settings = {ASSET_TAGS = (); }; };
 		3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */; };
 		3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDC1AF3A79100C94550 /* AppDelegate.swift */; };
 		3AC11CDF1AF3A79100C94550 /* TypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC11CDE1AF3A79100C94550 /* TypeViewController.swift */; };
@@ -49,6 +50,7 @@
 		3A65162D1B9896BF007DF326 /* LoadTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = LoadTextViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		3A6516341B99AD57007DF326 /* TypeTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TypeTime.xcdatamodel; sourceTree = "<group>"; };
 		3A6516381B99AF8A007DF326 /* TypeText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeText.swift; sourceTree = "<group>"; };
+		3A6AAA491BC01F12004B042F /* TypeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeView.swift; sourceTree = "<group>"; };
 		3A8298521AFBE69700B22A84 /* TypeTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TypeTime.entitlements; sourceTree = "<group>"; };
 		3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceTextView.swift; sourceTree = "<group>"; };
 		3AC11CD71AF3A79100C94550 /* TypeTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TypeTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +120,7 @@
 			children = (
 				3A8B6A691AFA5799000B23AD /* ReferenceTextView.swift */,
 				3A3AB7181AF9432C008BB4BB /* TypeTextView.swift */,
+				3A6AAA491BC01F12004B042F /* TypeView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				3A496C0E1B9DBB500055376F /* Utility.swift in Sources */,
 				3AC11CFF1AF3B50F00C94550 /* TypeMonitor.swift in Sources */,
 				3AC11CDD1AF3A79100C94550 /* AppDelegate.swift in Sources */,
+				3A6AAA4A1BC01F12004B042F /* TypeView.swift in Sources */,
 				3A39BE711B9DD25000C52504 /* TypeWindowController.swift in Sources */,
 				3A3AB7191AF9432C008BB4BB /* TypeTextView.swift in Sources */,
 				3A8B6A6A1AFA5799000B23AD /* ReferenceTextView.swift in Sources */,

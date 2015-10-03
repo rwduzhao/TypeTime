@@ -8,6 +8,8 @@
 
 import Cocoa
 
+protocol TypeTextViewDelegate: NSTextViewDelegate {}
+
 class TypeTextView: NSTextView {
 
     let defaultFont = NSFont(name: "Menlo", size: 24.0)

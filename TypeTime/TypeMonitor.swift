@@ -152,9 +152,9 @@ class TypeMonitor: NSObject {
         historyTypoIndices = []
     }
 
-    func resetAccordingToReference(referenceTextLength: Int) {
+    func resetAccordingToReference(referenceText: String) {
         reset()
-        numReferenceChar = referenceTextLength
+        numReferenceChar = referenceText.characters.count
         charTimeIntervals = [NSTimeInterval](count: numReferenceChar!, repeatedValue: 0.0)
         typoIndices = [Int](count: numReferenceChar!, repeatedValue: 0)
         historyTypoIndices = [Int](count: numReferenceChar!, repeatedValue: 0)
@@ -171,8 +171,8 @@ class TypeMonitor: NSObject {
         }
     }
 
-    func StartOverAccordingToReference(referenceTextLength: Int) {
-        resetAccordingToReference(referenceTextLength)
+    func startOverAccordingToReference(referenceText: String) {
+        resetAccordingToReference(referenceText)
         start()
     }
 

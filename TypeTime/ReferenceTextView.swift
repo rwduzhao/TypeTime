@@ -124,5 +124,5 @@ class ReferenceTextView: NSTextView {
             textStorage?.setAttributedString(attributedString)
         }
     }
-    
+
 }

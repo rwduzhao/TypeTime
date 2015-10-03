@@ -8,25 +8,21 @@
 
 import Cocoa
 
-protocol TypeViewDelegate {
-    func loadTypeText(string: String)
-}
+class TypeViewController: NSViewController, TypeViewDelegate, TypeTextViewDelegate {
 
-class TypeViewController: NSViewController, TypeViewDelegate {
+    // MARK: - Variables
 
-    @IBOutlet var referenceTextView: ReferenceTextView!
-    @IBOutlet var typeTextView: TypeTextView!
-
-    var localKeyDownEvent: AnyObject?
-
+    var referenceText: String?
     var typeMonitor = TypeMonitor()
     var snapshotTypeString: String?
+
     var bufferKeyCode: UInt16?
     var numBufferKeyDown = 0
     var bufferDate: NSDate?
     var bufferTimeOffset: NSTimeInterval = 0.0
     var lastTypeTextLength = 0
-    var referenceText: String?
+
+    var localKeyDownEvent: AnyObject?
 
     var autoStartTypeState: Int? {
         get {
@@ -43,14 +39,23 @@ class TypeViewController: NSViewController, TypeViewDelegate {
         }
     }
 
+    // MARK: - UI variables
+
+    @IBOutlet var referenceTextView: ReferenceTextView!
+    @IBOutlet var typeTextView: TypeTextView!
+
+    // MARK: - Life cycles
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         addObservers()
 
+        typeTextView.delegate = self
+
         referenceTextView.setupInitLookup()
         if referenceText != nil {
-            referenceTextView.textStorage?.mutableString.setString(referenceText!)
+            referenceTextView.string = referenceText
         }
         typeTextView.setupInitLookup()
 
@@ -63,6 +68,7 @@ class TypeViewController: NSViewController, TypeViewDelegate {
 
     override func viewDidAppear () {
         super.viewDidAppear()
+
         view.window?.titleVisibility = .Hidden
     }
 
@@ -71,22 +77,7 @@ class TypeViewController: NSViewController, TypeViewDelegate {
         notificationCenter.removeObserver(self)
     }
 
-    func loadTypeText(string: String) {
-        typeMonitor.reset()
-        typeTextView.inactivate()
-        typeTextView.setupInitLookup()
-        typeTextView.setDefaultFont()
-        referenceTextView.inactivate()
-        referenceTextView.textStorage!.mutableString.setString(string)
-        referenceTextView.markAllTextAsNormal()
-        resetTypeInformationAccordingToReference()
-    }
-
-    func presentLoadTextView() {
-        let loadTextViewController = storyboard!.instantiateControllerWithIdentifier("Load Text View Controller") as! LoadTextViewController
-        loadTextViewController.delegate = self
-        presentViewControllerAsSheet(loadTextViewController)
-    }
+    // MARK: - Events handling
 
     func addObservers() {
         let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -130,6 +121,41 @@ class TypeViewController: NSViewController, TypeViewDelegate {
         return theEvent!
     }
 
+    func keyDownInTypeTextView(notification: NSNotification) {
+        ++numBufferKeyDown
+        typeMonitor.incrementNumKeyDown()
+
+        let userInfo = notification.userInfo as! [String: AnyObject]
+        let event = userInfo["event"] as! NSEvent
+        bufferKeyCode = event.keyCode
+
+        // delete action in blank typeTextView
+        if typeTextView.textStorage!.length == 0 && bufferKeyCode == 51 {
+            typeMonitor.backwardCursorLocation(1)
+            let cursorLocation = typeMonitor.getCursorLocation()
+            typeMonitor.clearTypoIndiceAt(cursorLocation)
+            referenceTextView.clearTextMarkAtIndex(cursorLocation)
+            --numBufferKeyDown
+            numBufferKeyDown = 0
+        }
+    }
+
+    // MARK: - General
+
+    func presentLoadTextView() {
+        let loadTextViewController = storyboard!.instantiateControllerWithIdentifier("Load Text View Controller") as! LoadTextViewController
+        loadTextViewController.delegate = self
+        presentViewControllerAsSheet(loadTextViewController)
+    }
+
+    func resetTypeInformationAccordingToReference() {
+        typeMonitor.resetAccordingToReference(referenceTextView.string!)
+        typeTextView.string = typeMonitor.infoLine
+        typeTextView.setDefaultFont()
+    }
+
+    // MARK: - Type state controlling
+
     func startType() {
         referenceTextView.inactivate()
         if autoShuffleReferenceState == NSOnState {
@@ -147,7 +173,7 @@ class TypeViewController: NSViewController, TypeViewDelegate {
         typeTextView.activate()
         typeTextView.setDefaultFont()
 
-        typeMonitor.StartOverAccordingToReference(referenceTextView.textStorage!.mutableString.length)
+        typeMonitor.startOverAccordingToReference(referenceTextView.string!)
     }
 
     func togglePauseType() {
@@ -160,10 +186,10 @@ class TypeViewController: NSViewController, TypeViewDelegate {
             typeMonitor.addCharTimeIntervalsAt(cursorLocation, timeInterval: bufferTimeInterval)
             typeMonitor.pause()
             snapshotTypeString = typeTextView.string
-            typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
+            typeTextView.string = typeMonitor.infoLine
             typeTextView.setDefaultFont()
         case .Paused:
-            typeTextView.textStorage?.mutableString.setString(snapshotTypeString!)
+            typeTextView.string = snapshotTypeString!
             snapshotTypeString = nil
             typeMonitor.resume()
             bufferDate = NSDate()
@@ -202,11 +228,7 @@ class TypeViewController: NSViewController, TypeViewDelegate {
         typeTextView.setDefaultFont()
     }
 
-    func resetTypeInformationAccordingToReference() {
-        typeMonitor.resetAccordingToReference(referenceTextView.textStorage!.length)
-        typeTextView.textStorage?.mutableString.setString(typeMonitor.infoLine)
-        typeTextView.setDefaultFont()
-    }
+    // MARK: - Reference text
 
     func toggleEditReference(notification: NSNotification) {
         switch referenceTextView.editable {
@@ -265,26 +287,9 @@ class TypeViewController: NSViewController, TypeViewDelegate {
         resetTypeInformationAccordingToReference()
     }
 
-    func keyDownInTypeTextView(notification: NSNotification) {
-        ++numBufferKeyDown
-        typeMonitor.incrementNumKeyDown()
+    // MARK: - TypeViewDelegate
 
-        let userInfo = notification.userInfo as! [String: AnyObject]
-        let event = userInfo["event"] as! NSEvent
-        bufferKeyCode = event.keyCode
-
-        // delete action in blank typeTextView
-        if typeTextView.textStorage!.length == 0 && bufferKeyCode == 51 {
-            typeMonitor.backwardCursorLocation(1)
-            let cursorLocation = typeMonitor.getCursorLocation()
-            typeMonitor.clearTypoIndiceAt(cursorLocation)
-            referenceTextView.clearTextMarkAtIndex(cursorLocation)
-            --numBufferKeyDown
-            numBufferKeyDown = 0
-        }
-    }
-
-    func textDidChange(notification: NSNotification) {
+    func textDidChange(obj: NSNotification) {
         switch typeMonitor.getState() {
         case .On:
             let typeString = typeTextView.textStorage!.mutableString
@@ -375,6 +380,19 @@ class TypeViewController: NSViewController, TypeViewDelegate {
         default:
             break
         }
+    }
+
+    // MARK: - TypeViewDelegate
+
+    func loadTypeText(string: String) {
+        typeMonitor.reset()
+        typeTextView.inactivate()
+        typeTextView.setupInitLookup()
+        typeTextView.setDefaultFont()
+        referenceTextView.inactivate()
+        referenceTextView.textStorage!.mutableString.setString(string)
+        referenceTextView.markAllTextAsNormal()
+        resetTypeInformationAccordingToReference()
     }
     
 }

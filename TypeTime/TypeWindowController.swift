@@ -17,9 +17,9 @@ class TypeWindowController: NSWindowController {
     @IBAction func loadTypeText(sender: NSToolbarItem) {
         let sharedApplication = NSApplication.sharedApplication()
         let keyWindow = sharedApplication.keyWindow
-        if let viewController = keyWindow?.contentViewController as? TypeViewController {
-            viewController.presentLoadTextView()
+        if let typeViewController = keyWindow?.contentViewController as? TypeViewController {
+            typeViewController.presentLoadTextView()
         }
     }
-    
+
 }

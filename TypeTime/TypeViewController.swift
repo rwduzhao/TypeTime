@@ -394,5 +394,5 @@ class TypeViewController: NSViewController, TypeViewDelegate, TypeTextViewDelega
         referenceTextView.markAllTextAsNormal()
         resetTypeInformationAccordingToReference()
     }
-    
+
 }

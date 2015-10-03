@@ -201,5 +201,5 @@ class TypeText: NSManagedObject {
         let paths = try! fileManager.contentsOfDirectoryAtPath(resourcePath) as [String]?
         return paths?.filter({path in path.hasSuffix("txt")}).map({"\(resourcePath)/\($0)"})
     }
-    
+
 }

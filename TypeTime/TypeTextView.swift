@@ -72,5 +72,5 @@ class TypeTextView: NSTextView {
             super.rightMouseDown(theEvent)
         }
     }
-    
+
 }

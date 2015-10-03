@@ -292,5 +292,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             break
         }
     }
-    
+
 }

@@ -13,5 +13,4 @@ protocol TypeViewDelegate {
 }
 
 class TypeView: NSView {
-
 }

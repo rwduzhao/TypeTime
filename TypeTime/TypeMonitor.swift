@@ -228,5 +228,5 @@ class TypeMonitor: NSObject {
             return "nil"
         }
     }
-    
+
 }

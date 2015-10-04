@@ -13,6 +13,8 @@ import Foundation
 @objc(TypeText)
 class TypeText: NSManagedObject {
 
+    // MARK: - Attributes
+
     @NSManaged var content: String?
     @NSManaged var creator: String?
     @NSManaged var identifier: String?
@@ -22,42 +24,18 @@ class TypeText: NSManagedObject {
     @NSManaged var count: NSNumber?
     @NSManaged var creationDate: NSDate?
 
+    // MARK: - Variables
+
     var nameTag: String {
         get {
             return "\(language)-\(type)-\(title)"
         }
     }
 
+    // MARK: - General
+
     func updateCount() {
         count = TypeText.countContent(content!, type: type!)
-    }
-
-    func getSampleText(sampleLength: Int, splitNumber: Int, isRandom: Bool) -> String {
-        var sep: String?
-        var items = [String]()
-        switch type! {
-        case "Character":
-            sep = "\n"
-        case "Phrase":
-            sep = "\n"
-        case "Article":
-            sep = nil
-        default:
-            break
-        }
-        let startIndex = sampleLength * (splitNumber - 1)
-        let endIndex = min(startIndex + sampleLength, count as! Int)
-        var string = ""
-        if sep != nil {
-            items = content!.componentsSeparatedByString(sep!)
-            let sampledItems = Array(items[startIndex..<endIndex])
-            string = sampledItems.joinWithSeparator("")
-        } else {
-            let start = content!.startIndex.advancedBy(startIndex)
-            let end = content!.startIndex.advancedBy(endIndex)
-            string = content!.substringWithRange(Range<String.Index>(start: start, end: end))
-        }
-        return string
     }
 
     static func countContent(content: String, type: String) -> Int {
@@ -77,12 +55,7 @@ class TypeText: NSManagedObject {
         return count
     }
 
-    static func newObjectForInsertion() -> TypeText? {
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let context = appDelegate.managedObjectContext!
-        let entity =  NSEntityDescription.entityForName("TypeText", inManagedObjectContext: context)
-        return NSManagedObject(entity: entity!, insertIntoManagedObjectContext: context) as? TypeText
-    }
+    // MARK: - Store management
 
     static func clearStore() {
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
@@ -136,6 +109,97 @@ class TypeText: NSManagedObject {
         }
     }
 
+    static func insertTypeText(language: String, type: String, title: String, content: String, creator: String, creationDate: NSDate) -> Bool {
+        switch type {
+        case "Character":
+            let sep = "\n"
+            let items = content.componentsSeparatedByString(sep)
+            for item in items {
+                if item.characters.count != 1 {
+                    return false
+                }
+            }
+            break
+        case "Phrase":
+            break
+        case "Article":
+            break
+        default:
+            return false
+        }
+
+        var typeTextAttributes = [String: AnyObject]()
+        typeTextAttributes["content"] = content
+        typeTextAttributes["creator"] = creator
+        typeTextAttributes["language"] = language
+        typeTextAttributes["title"] = title
+        typeTextAttributes["type"] = type
+        typeTextAttributes["creationDate"] = creationDate
+
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let context = appDelegate.managedObjectContext!
+        let typeText = TypeText.newObjectForInsertion()
+        typeText?.setValuesForKeysWithDictionary(typeTextAttributes)
+        typeText?.updateCount()
+        try! context.save()
+        return true
+    }
+
+    static func updateTypeText(typeText: TypeText, language: String, type: String, title: String, content: String, creator: String, creationDate: NSDate) -> Bool {
+        switch type {
+        case "Character":
+            let sep = "\n"
+            let items = content.componentsSeparatedByString(sep)
+            for item in items {
+                if item.characters.count != 1 {
+                    return false
+                }
+            }
+            break
+        case "Phrase":
+            break
+        case "Article":
+            break
+        default:
+            return false
+        }
+
+        var typeTextAttributes = [String: AnyObject]()
+        typeTextAttributes["content"] = content
+        typeTextAttributes["creator"] = creator
+        typeTextAttributes["language"] = language
+        typeTextAttributes["title"] = title
+        typeTextAttributes["type"] = type
+        typeTextAttributes["creationDate"] = creationDate
+
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let context = appDelegate.managedObjectContext!
+        typeText.setValuesForKeysWithDictionary(typeTextAttributes)
+        typeText.updateCount()
+        try! context.save()
+        return true
+    }
+
+    static func newObjectForInsertion() -> TypeText? {
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let context = appDelegate.managedObjectContext!
+        let entity =  NSEntityDescription.entityForName("TypeText", inManagedObjectContext: context)
+        return NSManagedObject(entity: entity!, insertIntoManagedObjectContext: context) as? TypeText
+    }
+
+    static func deleteTypeText(typeText: TypeText) {
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let context = appDelegate.managedObjectContext!
+        context.deleteObject(typeText)
+        try! context.save()
+    }
+
+    static func getObjectWithID(objectID: NSManagedObjectID) -> TypeText {
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let context = appDelegate.managedObjectContext!
+        return context.objectWithID(objectID) as! TypeText
+    }
+
     static func getStoredObjects() -> [TypeText] {
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         let context = appDelegate.managedObjectContext!
@@ -163,6 +227,8 @@ class TypeText: NSManagedObject {
         }
         return values
     }
+
+    // MARK: - Text files information
 
     static func getAttributesFromTextFile(filePath: String) -> [String: AnyObject]? {
         func parseTextFileName(fileName: String) -> [String: AnyObject]? {
@@ -200,6 +266,36 @@ class TypeText: NSManagedObject {
         let resourcePath = NSBundle.mainBundle().resourcePath!
         let paths = try! fileManager.contentsOfDirectoryAtPath(resourcePath) as [String]?
         return paths?.filter({path in path.hasSuffix("txt")}).map({"\(resourcePath)/\($0)"})
+    }
+
+    // MARK: - Sample text
+
+    func getSampleText(sampleLength: Int, splitNumber: Int, isRandom: Bool) -> String {
+        var sep: String?
+        var items = [String]()
+        switch type! {
+        case "Character":
+            sep = "\n"
+        case "Phrase":
+            sep = "\n"
+        case "Article":
+            sep = nil
+        default:
+            break
+        }
+        let startIndex = sampleLength * (splitNumber - 1)
+        let endIndex = min(startIndex + sampleLength, count as! Int)
+        var string = ""
+        if sep != nil {
+            items = content!.componentsSeparatedByString(sep!)
+            let sampledItems = Array(items[startIndex..<endIndex])
+            string = sampledItems.joinWithSeparator("")
+        } else {
+            let start = content!.startIndex.advancedBy(startIndex)
+            let end = content!.startIndex.advancedBy(endIndex)
+            string = content!.substringWithRange(Range<String.Index>(start: start, end: end))
+        }
+        return string
     }
 
 }

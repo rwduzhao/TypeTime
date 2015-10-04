@@ -48,6 +48,22 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
             updateSplitNumberOptions()
             updateSplitNumber()
             updateSampleText()
+
+            if selectedTypeText == nil {
+                deleteTypeTextButton.enabled = false
+                editTypeTextButton.enabled = false
+                loadButton.enabled = false
+            } else {
+                if selectedTypeText!.creator == "TypeTime" {
+                    deleteTypeTextButton.enabled = false
+                    editTypeTextButton.enabled = false
+                    loadButton.enabled = true
+                } else {
+                    deleteTypeTextButton.enabled = true
+                    editTypeTextButton.enabled = true
+                    loadButton.enabled = true
+                }
+            }
         }
     }
 
@@ -62,8 +78,12 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
     @IBOutlet weak var textLanguagePopUpButton: NSPopUpButton!
     @IBOutlet weak var textTypeSegmentedControl: NSSegmentedControl!
     @IBOutlet weak var typeTextTableView: NSTableView!
+    @IBOutlet weak var addTypeTextButton: NSButton!
+    @IBOutlet weak var deleteTypeTextButton: NSButton!
+    @IBOutlet weak var editTypeTextButton: NSButton!
     @IBOutlet weak var sampleLengthPopUpButton: NSPopUpButton!
     @IBOutlet weak var splitNumberPopUpBotton: NSPopUpButton!
+    @IBOutlet weak var loadButton: NSButton!
 
     // MARK: - Life cycles
 
@@ -71,7 +91,12 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
         super.viewDidLoad()
 
         typeTextTableView.delegate()
+        refresh()
+    }
 
+    // MARK: - General
+
+    func refresh() {
         // TypeText.clearStore()
         TypeText.updateStore()
         updateCandidateTextLanguages()
@@ -79,6 +104,7 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
         selectedTextLanguage = textLanguagePopUpButton.titleOfSelectedItem
         let selectedSegment = textTypeSegmentedControl.selectedSegment
         selectedTextType = textTypeSegmentedControl.labelForSegment(selectedSegment)
+        selectedTypeText = nil
 
         updateSampleLengthOptions()
         updateSampleLength()
@@ -127,6 +153,32 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
                 selectedTextType = selectedSegmentLabel
             }
         }
+    }
+
+    @IBAction func addTypeText(sender: NSButton) {
+        typeTextTableView.deselectAll(typeTextTableView)
+        let editTypeTextViewController = storyboard!.instantiateControllerWithIdentifier("Edit Type Text View Controller") as! EditTypeTextViewController
+        editTypeTextViewController.typeText = nil
+        editTypeTextViewController.selectableLanguages = candidateTextLanguages
+        editTypeTextViewController.preferredLanguage = selectedTextLanguage
+        editTypeTextViewController.preferredType = selectedTextType
+        editTypeTextViewController.loadTextViewController = self
+        presentViewControllerAsSheet(editTypeTextViewController)
+    }
+
+    @IBAction func deleteTypeText(sender: NSButton) {
+        if selectedTypeText != nil {
+            TypeText.deleteTypeText(selectedTypeText!)
+            refresh()
+        }
+    }
+
+    @IBAction func editTypeText(sender: NSButton) {
+        let editTypeTextViewController = storyboard!.instantiateControllerWithIdentifier("Edit Type Text View Controller") as! EditTypeTextViewController
+        editTypeTextViewController.typeText = selectedTypeText!
+        editTypeTextViewController.selectableLanguages = candidateTextLanguages
+        editTypeTextViewController.loadTextViewController = self
+        presentViewControllerAsSheet(editTypeTextViewController)
     }
 
     // MARK: - Sample type text
@@ -202,7 +254,7 @@ class LoadTextViewController: NSViewController, NSTableViewDataSource, NSTableVi
         updateSampleText()
     }
 
-    // MARK: - Load or cancel
+    // MARK: - Load and cancel
 
     @IBAction func load(sender: NSButton) {
         if let string = sampleTextView.string {
